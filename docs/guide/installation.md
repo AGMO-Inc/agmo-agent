@@ -7,13 +7,15 @@ follow these steps:
 ## Step 0: Ask user about project information
 
 First of All, Ask the user these questions in korean to determine AGENTS.md options one after another.
-Don't move on next step before getting the answer:
+never move on next step before getting the answer:
 
 1. **현재 레파지토리는 어느 깃허브 프로젝트와 관련되어 있나요? (관련없음 또는 프로젝트명을 정확히 넣어주세요)**
+- 보기는 '관련 없음'과 'Type your own answer' 만 제시한다.
 - answer -> $PROJECT_NAME
 - $PROJECT_NAME 이 `관련없음`이면 1-1은 생략한다.
 
 1-1. **(프로젝트명이 있는 경우) 해당 프로젝트 링크(URL)는 무엇인가요? (ex. https://github.com/orgs/AGMO-Inc/projects/7)**
+- 보기는 'Type your own answer' 만 제시한다.
 - answer -> $PROJECT_URL
 
 2. **현재 레파지토리는 어떤 성격의 프로젝트인가요? (backend / frontend / custom)**
