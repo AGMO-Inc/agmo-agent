@@ -67,16 +67,16 @@ This file is the working agreement for humans and automation (CI, bots, AI agent
 - 레포: https://github.com/AGMO-Inc/sdm-backend
 
 ## 스킬
-- 실행 절차(이슈 시작, 커밋, 푸시/PR, 코드 작성 방법 등)는 `.agents/SKILL.md` 를 참고한다.
+- 실행 절차(이슈 시작, 커밋, 푸시/PR, 코드 작성 방법 등)는 `./SKILL.md` 를 참고한다.
 - 문서 중복을 피하기 위해 본 파일에는 절차 상세를 중복 기재하지 않는다.
 
 ## API 및 스웨거 규칙
-- API 구현 시 (Contoller 클래스 등) .agents/skills/swagger/ 및 .agents/skills/api/ 를 참고한다.
+- API 구현 시 (Contoller 클래스 등) AGENT_ROOT/skills/swagger/ 및 AGENT_ROOT/skills/api/ 를 참고한다.
 
 ## 코드 컨벤션
-- 코드 작성 시 .agents/docs/code.md 로 컨벤션을 참고한다.
+- 코드 작성 시 AGENT_ROOT/docs/code.md 로 컨벤션을 참고한다.
 - 비즈니스 예외 작성 시 swagger.md 를 참고하여 ErrorResponse 예시에 추가한다.
 
 ## hand-off
-- 컨텍스트를 저장하고 다른 세션을 시작할 때 .agents/handoff/handoff.md 에 저장한다.
+- 컨텍스트를 저장하고 다른 세션을 시작할 때 AGENT_ROOT/handoff/handoff.md 에 저장한다.
 - 새로운 세션을 시작할 때 handoff.md 가 있는지 확인 후 세션을 시작한다.
