@@ -75,7 +75,7 @@ export AGENT_ROOT=".opencode"
 edit AGENT_ROOT by sed one-liner (macOS/Linux)
 
 ```bash
-sed -i 's/AGENT_ROOT/\$AGENT_ROOT/g' ./AGENTS.md
+sed -i '' "s/AGENT_ROOT/${AGENT_ROOT}/g" ./AGENTS.md
 ```
 
 ## Step 3: Edit .gitignore file
@@ -129,18 +129,14 @@ find "$AGENT_ROOT" \
   -o -type f \
   -print0 \
 | while IFS= read -r -d '' f; do
-    # skip likely-binary files
     if file -b --mime "$f" | grep -q 'charset=binary'; then
       continue
     fi
 
-    # macOS vs Linux sed compatibility
     if sed --version >/dev/null 2>&1; then
-      # GNU sed (Linux)
-      sed -i 's/AGENT_ROOT/\$AGENT_ROOT/g' "$f"
+      sed -i "s/AGENT_ROOT/${$AGENT_ROOT}/g" "$f"
     else
-      # BSD sed (macOS)
-      sed -i '' 's/AGENT_ROOT/\$AGENT_ROOT/g' "$f"
+      sed -i '' "s/AGENT_ROOT/${AGENT_ROOT}/g" "$f"
     fi
   done
 ```
