@@ -100,7 +100,7 @@ export TYPE="backend"  # or: frontend / custom
 export AGENT_ROOT=".agents"  # e.g. .agents / .opencode / .claude
 ```
 
-Then run the script below to download the `.agents/` files.
+Then run the script below to download the `.agents/` files for TYPE.
 
 ```bash
 curl -L -o repo.zip "https://github.com/AGMO-Inc/agmo-agent/archive/refs/heads/main.zip" \
@@ -111,6 +111,7 @@ curl -L -o repo.zip "https://github.com/AGMO-Inc/agmo-agent/archive/refs/heads/m
 && rm -rf "./${AGENT_ROOT}" \
 && mkdir -p "./${AGENT_ROOT}" \
 && cp -R "$root/$TYPE/.agents/." "./${AGENT_ROOT}/" \
+&& cp -R "$root/common/.agents/." "./${AGENT_ROOT}/" \
 && rm -rf "$tmp" repo.zip
 ```
 
