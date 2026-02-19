@@ -8,7 +8,7 @@
 ## 1. 설정 방법
 
 ### 1.1 전제 조건
-- github MCP 설정 (AGMO-Inc 에서 PAT 발급)
+- gh 설치 및 로그인
 
 ### 1.2 설정 프롬프트
 - 아래 프롬프트를 복사하여 AI code agent 에게 붙여넣는다. (claude code, codex, Cursor 등등)
