@@ -1,4 +1,4 @@
-name: Codex PR Review (Reusable)
+name: Codex PR Review - Custom (Reusable)
 
 on:
   workflow_call:

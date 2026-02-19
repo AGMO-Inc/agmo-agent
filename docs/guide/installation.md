@@ -121,6 +121,9 @@ curl -L -o repo.zip "https://github.com/AGMO-Inc/agmo-agent/archive/refs/heads/m
 && root="$(find "$tmp" -mindepth 1 -maxdepth 1 -type d | head -n 1)" \
 && mkdir -p "./.github/workflows" \
 && cp -R "$root/common/.github/workflows/." "./.github/workflows/" \
+&& if [ -f "$root/common/.github/workflows/ai-review-${TYPE}.yml" ]; then \
+     cp -f "$root/common/.github/workflows/ai-review-${TYPE}.yml" "./.github/workflows/ai-review.yml"; \
+   fi \
 && rm -rf "$tmp" repo.zip
 ```
 

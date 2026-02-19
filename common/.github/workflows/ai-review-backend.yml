@@ -16,7 +16,7 @@ permissions:
 jobs:
   codex_pr_review:
     if: ${{ secrets.CODEX_API_TOKEN != '' }}
-    uses: AGMO-Inc/.github/.github/workflows/codex-pr-review-custom.yml@main
+    uses: AGMO-Inc/.github/.github/workflows/codex-pr-review-backend.yml@main
     with:
       model: gpt-5.3-codex
       max_diff_bytes: 180000

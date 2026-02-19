@@ -1,4 +1,4 @@
-name: Codex PR Review (Reusable)
+name: Codex PR Review - Backend (Reusable)
 
 on:
   workflow_call:
@@ -72,7 +72,7 @@ jobs:
                 "content": [
                   {
                     "type": "text",
-                    "text": "You are a senior engineer reviewing a GitHub pull request diff. Score the PR using 5 categories, 0-20 each, total 0-100. Use this rubric (custom/general): (1) Requirements & Correctness, (2) Code Quality & Maintainability, (3) Security & Privacy, (4) Performance & Reliability, (5) Tests & Operability. Output MUST be valid JSON per the provided schema. Keep feedback actionable and concise."
+                    "text": "You are a senior backend engineer reviewing a GitHub pull request diff. Score the PR using 5 categories, 0-20 each, total 0-100. Backend rubric: (1) Architecture & Responsibility Split, (2) Business Logic Correctness, (3) Security & Input Validation, (4) Performance & Scalability, (5) Tests & Operational Stability. Output MUST be valid JSON per the provided schema. Keep feedback actionable and concise."
                   }
                 ]
               },
@@ -99,17 +99,17 @@ jobs:
                       "type": "object",
                       "additionalProperties": false,
                       "properties": {
-                        "requirements_correctness": { "type": "integer", "minimum": 0, "maximum": 20 },
-                        "code_quality": { "type": "integer", "minimum": 0, "maximum": 20 },
-                        "security_privacy": { "type": "integer", "minimum": 0, "maximum": 20 },
-                        "performance_reliability": { "type": "integer", "minimum": 0, "maximum": 20 },
+                        "architecture_responsibility": { "type": "integer", "minimum": 0, "maximum": 20 },
+                        "business_logic_correctness": { "type": "integer", "minimum": 0, "maximum": 20 },
+                        "security_validation": { "type": "integer", "minimum": 0, "maximum": 20 },
+                        "performance_scalability": { "type": "integer", "minimum": 0, "maximum": 20 },
                         "tests_operability": { "type": "integer", "minimum": 0, "maximum": 20 }
                       },
                       "required": [
-                        "requirements_correctness",
-                        "code_quality",
-                        "security_privacy",
-                        "performance_reliability",
+                        "architecture_responsibility",
+                        "business_logic_correctness",
+                        "security_validation",
+                        "performance_scalability",
                         "tests_operability"
                       ]
                     },
@@ -179,10 +179,10 @@ jobs:
             data = {
               "total_score": 0,
               "scores": {
-                "requirements_correctness": 0,
-                "code_quality": 0,
-                "security_privacy": 0,
-                "performance_reliability": 0,
+                "architecture_responsibility": 0,
+                "business_logic_correctness": 0,
+                "security_validation": 0,
+                "performance_scalability": 0,
                 "tests_operability": 0
               },
               "summary": raw,
@@ -207,11 +207,11 @@ jobs:
           md = "## Codex Review\n\n"
           md += f"**Score:** {total}/100\n\n"
           md += "| Category | Score |\n|---|---:|\n"
-          md += f"| Requirements & Correctness | {scores.get('requirements_correctness', 0)}/20 |\n"
-          md += f"| Code Quality & Maintainability | {scores.get('code_quality', 0)}/20 |\n"
-          md += f"| Security & Privacy | {scores.get('security_privacy', 0)}/20 |\n"
-          md += f"| Performance & Reliability | {scores.get('performance_reliability', 0)}/20 |\n"
-          md += f"| Tests & Operability | {scores.get('tests_operability', 0)}/20 |\n\n"
+          md += f"| Architecture & Responsibility Split | {scores.get('architecture_responsibility', 0)}/20 |\n"
+          md += f"| Business Logic Correctness | {scores.get('business_logic_correctness', 0)}/20 |\n"
+          md += f"| Security & Input Validation | {scores.get('security_validation', 0)}/20 |\n"
+          md += f"| Performance & Scalability | {scores.get('performance_scalability', 0)}/20 |\n"
+          md += f"| Tests & Operational Stability | {scores.get('tests_operability', 0)}/20 |\n\n"
           md += f"**Summary:** {data.get('summary','')}\n\n"
           md += section("Strengths", data.get("strengths", []))
           md += section("Major Issues", data.get("major_issues", []))
