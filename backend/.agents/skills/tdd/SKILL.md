@@ -79,10 +79,10 @@ class FooServiceUnitTest : BehaviorSpec({
 })
 ```
 
-sdm-backend 참고(패턴 예시 - 레포에 맞게 경로/패키지 조정):
+패턴 예시(이름/구성만 참고):
 
-- Mockito 기반 단위 테스트: `src/test/kotlin/com/agmo/sdmbackend/auth/service/AuthServiceUnitTest.kt`
-- BehaviorSpec 기반 공통 헬퍼: `src/test/kotlin/com/agmo/sdmbackend/testcommon/ServiceUnitTestHelper.kt`
+- `*ServiceUnitTest.kt` (BehaviorSpec + mock으로 의존성 격리)
+- `testcommon/ServiceUnitTestHelper.kt` (공통 fixture/helper 제공)
 
 ## Integration Test (medium)
 
@@ -95,10 +95,10 @@ sdm-backend 참고(패턴 예시 - 레포에 맞게 경로/패키지 조정):
 - 외부 연동(메일/S3/NFL 등)은 test double로 대체(`@MockkBean(relaxed = true)` 같은 패턴)
 - 테스트 데이터는 기존 seed/helper/factory가 있으면 재사용
 
-sdm-backend 참고(패턴 예시 - 레포에 맞게 경로/패키지 조정):
+패턴 예시(이름/구성만 참고):
 
-- SpringBootTest + 트랜잭션 + @MockkBean: `src/test/kotlin/com/agmo/sdmbackend/testcommon/ServiceIntegrationTestHelper.kt`
-- 실제 서비스 통합 테스트 예시: `src/test/kotlin/com/agmo/sdmbackend/user/service/UserServiceTest.kt`
+- `testcommon/ServiceIntegrationTestHelper.kt` (SpringBootTest + test profile + DB/Testcontainers + mock bean)
+- `*ServiceTest.kt` (실제 서비스 통합 시나리오)
 
 ## Flow Test (slow, high confidence)
 
@@ -111,10 +111,10 @@ sdm-backend 참고(패턴 예시 - 레포에 맞게 경로/패키지 조정):
 - 테스트 종료 시 DB 정리를 수행한다(기존 cleaner/transaction 전략을 우선 사용).
 - Flow 테스트는 느리기 때문에, 단위/통합 테스트로 먼저 최소 재현을 만든 뒤 필요할 때만 추가한다.
 
-sdm-backend 참고(패턴 예시 - 레포에 맞게 경로/패키지 조정):
+패턴 예시(이름/구성만 참고):
 
-- Flow 베이스 헬퍼: `src/test/kotlin/com/agmo/sdmbackend/testcommon/FlowIntegrationHelper.kt`
-- Flow 테스트 예시: `src/test/kotlin/com/agmo/sdmbackend/integration/UserSignupFlowTest.kt`
+- `testcommon/FlowIntegrationHelper.kt` (랜덤 포트 + HTTP client + 공통 request/parse/cleanup)
+- `integration/*FlowTest.kt` (주요 플로우 시나리오)
 
 ## Kotest Default Style
 
