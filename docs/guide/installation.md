@@ -58,26 +58,6 @@ setting 프로젝트명 in `## 레포/프로젝트 정보` by $PROJECT_NAME from
 setting 프로젝트 url in `## 레포/프로젝트 정보` by $PROJECT_URL from user's answer
 - If $PROJECT_NAME is `관련없음`, set the project url to `N/A`.
 
-### Step 2-3: agent directory info
-
-Run the following command to update AGENTS.md so it references the AGENT_ROOT environment variable (instead of the literal text AGENT_ROOT).
-
-```bash
-export AGENT_ROOT=".opencode"
-```
-
-**Examples:**
-- current ai agent is opencode: `export AGENT_ROOT=".opencode"`
-- current ai agent is claudecode: `export AGENT_ROOT=".claude"`
-- current ai agent is codex (openai): `export AGENT_ROOT=".codex"`
-
-
-edit AGENT_ROOT by sed one-liner (macOS/Linux)
-
-```bash
-sed -i '' "s/AGENT_ROOT/${AGENT_ROOT}/g" ./AGENTS.md
-```
-
 ## Step 3: Edit .gitignore file
 
 Add `.gitignore` if not exists by running the following Bash command:
@@ -91,13 +71,12 @@ TODO-Issue.md
 EOF
 ```
 
-## Step 4: Download AGENT_ROOT files
+## Step 4: Download `.agents/` files
 
 First, set `TYPE` as an environment variable using the value you answered in Step 0 (`backend`, `frontend`, or `custom`).
 
 ```bash
 export TYPE="backend"  # or: frontend / custom
-export AGENT_ROOT=".agents"  # e.g. .agents / .opencode / .claude
 ```
 
 Then run the script below to download the `.agents/` files for TYPE.
@@ -107,43 +86,15 @@ curl -L -o repo.zip "https://github.com/AGMO-Inc/agmo-agent/archive/refs/heads/m
 && tmp="$(mktemp -d)" \
 && unzip -q repo.zip -d "$tmp" \
 && root="$(find "$tmp" -mindepth 1 -maxdepth 1 -type d | head -n 1)" \
-&& if [ -z "${AGENT_ROOT:-}" ]; then echo "AGENT_ROOT is empty. do confirm AGENT_ROOT (e.g. .agents/.opencode/.claude)" >&2; exit 1; fi \
-&& rm -rf "./${AGENT_ROOT}" \
-&& mkdir -p "./${AGENT_ROOT}" \
-&& cp -R "$root/$TYPE/.agents/." "./${AGENT_ROOT}/" \
-&& cp -R "$root/common/.agents/." "./${AGENT_ROOT}/" \
+&& rm -rf "./.agents" \
+&& mkdir -p "./.agents" \
+&& cp -R "$root/$TYPE/.agents/." "./.agents/" \
+&& cp -R "$root/common/.agents/." "./.agents/" \
 && rm -rf "$tmp" repo.zip
-```
-
-## Step 5: Replace `AGENT_ROOT` references under `$AGENT_ROOT/`
-
-Run the following command to iterate over **all files** under `$AGENT_ROOT/` and replace every occurrence of `AGENT_ROOT` with `$AGENT_ROOT` in-place.
-
-> ⚠️ This edits files in-place. It will skip `.git/`, `node_modules/`, and common binary files.
-
-```bash
-# Ensure AGENT_ROOT is set (example)
-# export AGENT_ROOT=".opencode"
-
-find "$AGENT_ROOT" \
-  -type d \( -name .git -o -name node_modules -o -name dist -o -name build \) -prune -false \
-  -o -type f \
-  -print0 \
-| while IFS= read -r -d '' f; do
-    if file -b --mime "$f" | grep -q 'charset=binary'; then
-      continue
-    fi
-
-    if sed --version >/dev/null 2>&1; then
-      sed -i "s/AGENT_ROOT/${$AGENT_ROOT}/g" "$f"
-    else
-      sed -i '' "s/AGENT_ROOT/${AGENT_ROOT}/g" "$f"
-    fi
-  done
 ```
 
 ### Verify (optional)
 
 ```bash
-grep -R --line-number 'AGENT_ROOT' "$AGENT_ROOT" || echo "✅ No remaining 'AGENT_ROOT' literals under $AGENT_ROOT"
+ls -la .agents
 ```
