@@ -81,12 +81,17 @@ export TYPE="backend"  # or: frontend / custom
 
 Then run the script below to download the `.agents/` files for TYPE.
 
+규칙:
+
+- 기존 `./.agents/`의 다른 파일은 건들지 않는다.
+- 동일한 파일/디렉토리명이 이미 있으면 덮어쓴다.
+- 존재하지 않으면 새로 추가한다.
+
 ```bash
 curl -L -o repo.zip "https://github.com/AGMO-Inc/agmo-agent/archive/refs/heads/main.zip" \
 && tmp="$(mktemp -d)" \
 && unzip -q repo.zip -d "$tmp" \
 && root="$(find "$tmp" -mindepth 1 -maxdepth 1 -type d | head -n 1)" \
-&& rm -rf "./.agents" \
 && mkdir -p "./.agents" \
 && cp -R "$root/$TYPE/.agents/." "./.agents/" \
 && cp -R "$root/common/.agents/." "./.agents/" \
@@ -97,4 +102,30 @@ curl -L -o repo.zip "https://github.com/AGMO-Inc/agmo-agent/archive/refs/heads/m
 
 ```bash
 ls -la .agents
+```
+
+## Step 5: Download `.github/workflows/` files (gitflow)
+
+`common/.github/workflows/`에 있는 워크플로우를 현재 레포의 `.github/workflows/`에 추가한다.
+
+규칙:
+
+- 기존 `.github/workflows/`의 다른 파일은 건들지 않는다.
+- 동일한 파일명이 이미 있으면 덮어쓴다.
+- 존재하지 않으면 새로 추가한다.
+
+```bash
+curl -L -o repo.zip "https://github.com/AGMO-Inc/agmo-agent/archive/refs/heads/main.zip" \
+&& tmp="$(mktemp -d)" \
+&& unzip -q repo.zip -d "$tmp" \
+&& root="$(find "$tmp" -mindepth 1 -maxdepth 1 -type d | head -n 1)" \
+&& mkdir -p "./.github/workflows" \
+&& cp -R "$root/common/.github/workflows/." "./.github/workflows/" \
+&& rm -rf "$tmp" repo.zip
+```
+
+### Verify (optional)
+
+```bash
+ls -la .github/workflows
 ```

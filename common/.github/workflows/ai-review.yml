@@ -1,0 +1,24 @@
+name: AI Review
+
+on:
+  pull_request:
+    branches:
+      - develop
+    types:
+      - opened
+      - reopened
+      - synchronize
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  codex_pr_review:
+    if: ${{ secrets.CODEX_API_TOKEN != '' }}
+    uses: AGMO-Inc/.github/.github/workflows/codex-pr-review.yml@main
+    with:
+      model: gpt-5.3-codex
+      max_diff_bytes: 180000
+    secrets:
+      CODEX_API_TOKEN: ${{ secrets.CODEX_API_TOKEN }}
