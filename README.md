@@ -65,7 +65,7 @@ curl -s https://raw.githubusercontent.com/AGMO-Inc/agmo-agent/refs/heads/main/do
 
 | Name | Path | 용도 |
 |------|------|------|
-| issue-start | `common/.agents/skills/issue-start/` | GitHub 이슈 기반으로 TODO-Issue.md 갱신 + 브랜치 생성 |
+| git-issue-start | `common/.agents/skills/git-issue-start/` | GitHub 이슈 기반으로 TODO-Issue.md 갱신 + 브랜치 생성 |
 | git-commit | `common/.agents/skills/git-commit/` | 변경사항 점검/검증 후 커밋 생성 |
 | git-push-pr | `common/.agents/skills/git-push-pr/` | 푸시 후 PR 생성 |
 | skill-creator | `common/.agents/skills/skill-creator/` | 스킬 생성/검증/패키징 도구 및 가이드 |

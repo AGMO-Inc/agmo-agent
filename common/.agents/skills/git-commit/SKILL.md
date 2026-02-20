@@ -33,6 +33,7 @@ description: 모든 에이전트가 공통으로 사용하는 커밋 실행 스�
 ```text
 <type>: <한글 제목> #<이슈번호>
 
+[AGENT-META] AI created
 - 변경사항 1
 - 변경사항 2
 ```
@@ -41,6 +42,7 @@ description: 모든 에이전트가 공통으로 사용하는 커밋 실행 스�
 
 - `type`은 `feat`, `fix`, `chore` 중 하나를 선택한다.
 - 제목/본문은 한국어로 작성한다.
+- AI가 작성한 커밋 메시지는 본문 첫 줄에 반드시 `[AGENT-META] AI created`를 포함한다.
 - 본문은 실제 반영된 변경만 bullet로 작성한다.
 
 ## 5. 커밋 실행
@@ -52,7 +54,8 @@ description: 모든 에이전트가 공통으로 사용하는 커밋 실행 스�
 예시:
 
 ```bash
-git commit -m "feat: 회원 플랜 연장 API 추가 #404" -m "- UserService에 연장 로직 추가
+git commit -m "feat: 회원 플랜 연장 API 추가 #404" -m "[AGENT-META] AI created
+- UserService에 연장 로직 추가
 - UserController API 및 테스트 추가"
 ```
 
