@@ -1,0 +1,4 @@
+interface:
+  display_name: "Device C++ Style"
+  short_description: "Device C++ style and protected-region rules"
+  default_prompt: "Apply project device C++ style and editing constraints from AGENTS.md."

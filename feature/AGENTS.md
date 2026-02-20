@@ -30,6 +30,18 @@ This file is the working agreement for humans and automation (CI, bots, AI agent
   - Build: `npm run build`
   - Test: 프로젝트의 테스트 러너(Vitest/Jest/Playwright 등)에 맞춰 실행
 
+## Device 구현 규칙 (중요)
+
+- 생성 코드 프로젝트는 구조를 보존하고, 허용된 보호 구간(`PROTECTED REGION`) 안에서만 수정한다.
+- 생성 코드 파일에서 보호 구간 활성화가 필요한 경우에만 `START -> ENABLED START` 규칙을 적용한다.
+- Device <-> UI 메시지 포맷은 프로젝트 표준(JSON `type` + `payload`)을 유지한다.
+- Device 외부 통신은 프로젝트 표준 어댑터/클라우드 경로를 우선 사용하고, 동기 반환이 아닌 비동기 응답 처리 경로를 유지한다.
+
+## Feature 타입 추천 스킬
+
+- Device 코드 스타일: `feature/.agents/skills/device-code-style/`
+- UI 빌드 + Device 반영 자동화: `feature/.agents/skills/ui-device-sync-build/`
+
 ## 기본 원칙
 
 - 모든 응답은 한국어로 작성한다.

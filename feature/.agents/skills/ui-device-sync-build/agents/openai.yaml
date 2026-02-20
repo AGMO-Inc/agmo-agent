@@ -1,0 +1,4 @@
+interface:
+  display_name: "UI Device Sync Build"
+  short_description: "Build UI and sync dist into device UI path"
+  default_prompt: "Build UI and deploy dist to the configured device UI directory for integrated deployment."
