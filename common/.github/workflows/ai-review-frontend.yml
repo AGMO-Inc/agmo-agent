@@ -35,7 +35,7 @@ jobs:
     if: ${{ needs.precheck.outputs.has_token == 'true' }}
     uses: AGMO-Inc/.github/.github/workflows/codex-pr-review-frontend.yml@main
     with:
-      model: gpt-5.3-codex
+      model: gpt-5.2-codex
       max_diff_bytes: 180000
     secrets:
       CODEX_API_TOKEN: ${{ secrets.CODEX_API_TOKEN }}
