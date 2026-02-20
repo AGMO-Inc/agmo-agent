@@ -142,6 +142,8 @@ CLI conventions:
 - Do not add secrets or tokens to this repo (PATs, keys, credentials).
 - When updating templates, also update the corresponding docs that instruct usage (or link to them).
 - Do not commit caches or local runtime dirs (ex: `.ruff_cache/`, `.opencode/`).
+- 모든 Git 작업(브랜치 생성/커밋/푸시/PR/리베이스)은 기본적으로 `develop` 또는 `develop` 하위 브랜치에서 수행한다.
+- `main`/`master`에서 Git 작업이 필요할 경우에는 사용자에게 명시적으로 허락을 받은 뒤에만 수행한다.
 
 ## Cursor / Copilot Rules
 

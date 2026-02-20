@@ -36,6 +36,8 @@ This file is the working agreement for humans and automation (CI, bots, AI agent
 - 작업 시작/진행/정리 과정에서 TODO-Issue.md 를 단일 진실원천(SSOT)으로 사용한다.
 - TODO-Issue.md 에는 "현재 작업 중인 GitHub Issue"에 대한 실행 과제를 기록한다.
 - device/ui는 변경 영향 범위가 넓으므로 작은 단위로 변경하고 바로 검증한다.
+- 모든 Git 작업(브랜치 생성/커밋/푸시/PR/리베이스)은 기본적으로 `develop` 또는 `develop` 하위 브랜치에서 수행한다.
+- `main`/`master`에서 Git 작업이 필요할 경우에는 사용자에게 명시적으로 허락을 받은 뒤에만 수행한다.
 
 ## 레포/프로젝트 정보
 
