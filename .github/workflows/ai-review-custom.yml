@@ -1,0 +1,41 @@
+name: AI Review
+
+on:
+  pull_request:
+    branches:
+      - develop
+    types:
+      - opened
+      - reopened
+      - synchronize
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  precheck:
+    runs-on: ubuntu-latest
+    outputs:
+      has_token: ${{ steps.check.outputs.has_token }}
+    steps:
+      - id: check
+        env:
+          TOKEN: ${{ secrets.CODEX_API_TOKEN }}
+        run: |
+          set -euo pipefail
+          if [ -n "${TOKEN}" ]; then
+            echo "has_token=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_token=false" >> "$GITHUB_OUTPUT"
+          fi
+
+  codex_pr_review:
+    needs: precheck
+    if: ${{ needs.precheck.outputs.has_token == 'true' }}
+    uses: AGMO-Inc/.github/.github/workflows/codex-pr-review-custom.yml@main
+    with:
+      model: gpt-5.2-codex
+      max_diff_bytes: 180000
+    secrets:
+      CODEX_API_TOKEN: ${{ secrets.CODEX_API_TOKEN }}
