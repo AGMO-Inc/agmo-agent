@@ -1,5 +1,5 @@
 ---
-name: issue-start
+name: git-issue-start
 description: 모든 에이전트가 공통으로 사용하는 이슈 시작 스킬이다. GitHub 이슈를 조회해 TODO-Issue.md를 현재 이슈 기준으로 갱신하고 브랜치를 생성한다. "이슈 #123 시작해줘", "현재 이슈 내용 가져와줘", "TODO-Issue.md를 이슈 기준으로 업데이트해줘", "이슈 기반 브랜치 만들어줘" 같은 요청에서 사용한다. GitHub 연동은 GitHub MCP를 사용한다.
 ---
 
