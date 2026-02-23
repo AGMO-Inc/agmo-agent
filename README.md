@@ -66,8 +66,12 @@ curl -s https://raw.githubusercontent.com/AGMO-Inc/agmo-agent/refs/heads/main/do
 | Name | Path | 용도 |
 |------|------|------|
 | git-issue-start | `common/.agents/skills/git-issue-start/` | GitHub 이슈 기반으로 TODO-Issue.md 갱신 + 브랜치 생성 |
+| git-issue-list | `common/.agents/skills/git-issue-list/` | GitHub 이슈 목록 조회 및 표 형식 정리 |
+| git-issue-move | `common/.agents/skills/git-issue-move/` | GitHub 프로젝트 보드 이슈 상태 변경 |
 | git-commit | `common/.agents/skills/git-commit/` | 변경사항 점검/검증 후 커밋 생성 |
 | git-push-pr | `common/.agents/skills/git-push-pr/` | 푸시 후 PR 생성 |
+| git-pr-review-fix | `common/.agents/skills/git-pr-review-fix/` | PR AI 리뷰 확인/수정 후 커밋 |
+| git-pr-merge | `common/.agents/skills/git-pr-merge/` | PR squash merge + 이슈 완료 코멘트 |
 | skill-creator | `common/.agents/skills/skill-creator/` | 스킬 생성/검증/패키징 도구 및 가이드 |
 
 ### 3.2 백엔드 스킬(backend)
