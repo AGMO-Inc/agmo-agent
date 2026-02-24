@@ -106,29 +106,13 @@ std::string ExternalApiAdapter::createCorrelationId() const {
 void CloudDownloadListener::handleMessage(const std::string& _content) {
     /*PROTECTED REGION ID(CloudDownloadListener_handleMessage) ENABLED START*/
     NEVONEX_LOG(SeverityLevel::info) << "Cloud Message: " << _content;
-
-    Json::Value apiResponse;
     if (!Utils::Util::convertStringToJson(_content, apiResponse)) {
         NEVONEX_LOG(SeverityLevel::warning) << "Cloud response is not valid JSON.";
         return;
     }
 
-    // data 객체에서 type 기반 디스패치
-    if (!apiResponse.isMember("data")
-        || !apiResponse["data"].isObject()
-        || !apiResponse["data"].isMember("type")) {
-        NEVONEX_LOG(SeverityLevel::debug) << "No compatible type field.";
-        return;
-    }
-
-    Json::Value normalized = apiResponse["data"];
-
-    // type 기반 디스패치
-    std::string type = normalized["type"].asString();
-    if (type == "email_verified") {
-        m_controller->handleEmailVerificationResponse(normalized);
-    }
-    // 새 응답 타입 추가 시 여기에 분기 추가
+    // apiResponse 구조는 외부 서버 응답에 따라 다름 — 프로젝트에 맞게 파싱/디스패치 구현
+    // 예: type 필드로 분기, correlation-id로 요청과 매칭 등
     /*PROTECTED REGION END*/
 }
 ```
@@ -153,9 +137,7 @@ void CloudDownloadListener::handleMessage(const std::string& _content) {
 - **indentation 없이 직렬화**: `writerBuilder["indentation"] = ""` (네트워크 전송용)
 
 ### 응답 수신 규칙
-
-- **정규화 필수**: 외부 서버마다 응답 구조가 다를 수 있으므로, `type` 필드 위치를 정규화
-- **type 디스패치**: 새 외부 API 추가 시 `handleMessage()`에 분기 추가
+- **파싱 후 구현**: `handleMessage()`에서 JSON 파싱까지는 공통이고, 그 이후 디스패치/비즈니스 로직은 프로젝트에서 구현
 - **비동기 인지**: 요청과 응답이 시간적으로 분리됨 — 타임아웃/재시도 로직은 Controller에서 관리
 - **UI 알림**: 응답 처리 후 WebSocket으로 UI에 결과 전달 (fdk-websocket 참조)
 
