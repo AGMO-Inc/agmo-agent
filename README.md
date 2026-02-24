@@ -9,7 +9,8 @@
 - [3. 포함된 스킬/커맨드](#3-포함된-스킬커맨드)
     - [3.1 공용 스킬(common)](#31-공용-스킬common)
     - [3.2 백엔드 스킬(backend)](#32-백엔드-스킬backend)
-    - [3.3 공용 커맨드(common)](#33-공용-커맨드common)
+    - [3.3 Feature 스킬(feature)](#33-feature-스킬feature)
+    - [3.4 공용 커맨드(common)](#34-공용-커맨드common)
 
 
 ## 1. 설정 방법
@@ -81,7 +82,23 @@ curl -s https://raw.githubusercontent.com/AGMO-Inc/agmo-agent/refs/heads/main/do
 | swagger | `backend/.agents/skills/swagger/` | Springdoc(OpenAPI) 기반 Swagger 어노테이션/문서화 패턴 |
 | tdd | `backend/.agents/skills/tdd/` | Kotlin + Spring + Kotest 기반 TDD(유닛/통합/플로우) 가이드 |
 
-### 3.3 공용 커맨드(common)
+### 3.3 Feature 스킬(feature)
+
+| Name | Path | 용도 |
+|------|------|------|
+| device-code-style | `feature/.agents/skills/device-code-style/` | Device C++ 코딩 스타일, Protected Region, Controller 패턴 |
+| fdk-websocket | `feature/.agents/skills/fdk-websocket/` | Device-UI WebSocket JSON 통신 |
+| fdk-sensor-api | `feature/.agents/skills/fdk-sensor-api/` | 센서 데이터 읽기/쓰기, Machine lifecycle |
+| fdk-custom-ui | `feature/.agents/skills/fdk-custom-ui/` | Custom UI (Manifest, Poco HTTP, HTML/JS) |
+| fdk-imu-gnss | `feature/.agents/skills/fdk-imu-gnss/` | IMU/GNSS 센서 + NMEA 파싱 + Mock 테스트 |
+| fdk-cloud-d2d | `feature/.agents/skills/fdk-cloud-d2d/` | Cloud 업/다운로드, D2D, FileProvider |
+| fdk-build-config | `feature/.agents/skills/fdk-build-config/` | CMake, Maven, FIF 패키지, CI/CD |
+| fdk-external-api | `feature/.agents/skills/fdk-external-api/` | Cloud 프록시 경유 외부 REST API 호출 |
+| fdk-usb | `feature/.agents/skills/fdk-usb/` | USB 파일 전송, 디렉토리 관리, Mount/Unmount |
+| fdk-property-listener | `feature/.agents/skills/fdk-property-listener/` | PropertyChangeListener 이벤트 감지 |
+| ui-device-sync-build | `feature/.agents/skills/ui-device-sync-build/` | UI 빌드 → Device 디렉토리 동기화 |
+
+### 3.4 공용 커맨드(common)
 
 | Name | Path | 용도 |
 |------|------|------|
