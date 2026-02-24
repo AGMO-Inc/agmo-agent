@@ -113,18 +113,15 @@ void CloudDownloadListener::handleMessage(const std::string& _content) {
         return;
     }
 
-    // 응답 정규화 (서버별 구조 차이 흡수)
-    Json::Value normalized(Json::objectValue);
-    if (apiResponse.isMember("type")) {
-        normalized = apiResponse;
-    } else if (apiResponse.isMember("data")
-               && apiResponse["data"].isObject()
-               && apiResponse["data"].isMember("type")) {
-        normalized = apiResponse["data"];
-    } else {
+    // data 객체에서 type 기반 디스패치
+    if (!apiResponse.isMember("data")
+        || !apiResponse["data"].isObject()
+        || !apiResponse["data"].isMember("type")) {
         NEVONEX_LOG(SeverityLevel::debug) << "No compatible type field.";
         return;
     }
+
+    Json::Value normalized = apiResponse["data"];
 
     // type 기반 디스패치
     std::string type = normalized["type"].asString();
