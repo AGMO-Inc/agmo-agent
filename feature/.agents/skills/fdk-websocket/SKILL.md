@@ -134,6 +134,10 @@ function sendCommand(cmd, value) {
 - UI에 필요한 빈도만큼만 전송 (변경 시에만, 또는 Process Timer로 주기 제어)
 - 대용량 데이터는 REST endpoint 사용 권장 (WebSocket은 실시간 소량 데이터에 적합)
 
+
+### 프로젝트별 응답 빌더
+
+프로젝트에 따라 WebSocket 응답을 생성하는 공통 헬퍼 함수(e.g. `createResponse(type, success, payload)`)가 존재할 수 있다. 새로 응답 로직을 작성하기 전에 **기존 Controller 코드에서 응답 빌더 함수가 있는지 먼저 확인**하고, 있다면 동일한 함수를 사용해 응답 포맷을 통일한다.
 ## Resources
 
 ### references/

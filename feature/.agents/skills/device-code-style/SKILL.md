@@ -180,40 +180,9 @@ NEVONEX_LOG(SeverityLevel::error) << "Error occurred: " << errorMsg;
 
 WebSocket 코드 스타일과 메시지 패턴은 **fdk-websocket** 스킬을 참조한다.
 
-### External API 규약
+### External API
 
-- 외부 통신은 요청 전송 성공과 비즈니스 성공을 분리해 해석한다.
-- 요청은 송신 후 비동기 응답 경로(다운로드 리스너/콜백 핸들러)에서 처리한다.
-- correlation ID는 프로젝트 규약으로 통일한다.
-- 요청 JSON 키/형식은 프로젝트 프로토콜 문서(`AGENTS.md` 또는 하위 문서)를 기준으로 고정한다.
-
-Example:
-
-```cpp
-Json::Value requestJson(Json::objectValue);
-requestJson["correlation-id"] = correlationId; // e.g. EXT_<uuid>
-requestJson["externalUrl"] = externalUrl;
-requestJson["method"] = method;
-requestJson["header"] = header; // Json::objectValue
-requestJson["msg"] = msg;       // Json::objectValue
-
-Json::StreamWriterBuilder writerBuilder;
-writerBuilder["indentation"] = "";
-const std::string jsonStr = Json::writeString(writerBuilder, requestJson);
-
-CloudClient::getInstance()->uploadData(jsonStr, 1);
-```
-
-### 비동기 클라우드 응답
-
-- 클라우드 다운로드 응답은 프로젝트 표준 리스너 엔트리포인트에서 처리한다.
-- 응답의 `type`(또는 동등 필드)으로 디스패치해 각 핸들러로 전달한다.
-
-### JSON 구성
-
-- `Json::Value(Json::objectValue)`로 초기화한다.
-- 외부 통신 업로드 JSON 키는 프로젝트 규약에 맞춰 안정적으로 유지한다.
-- 핸들러 간 키 네이밍 일관성을 유지한다.
+Cloud 프록시 경유 외부 REST API 호출 패턴은 **fdk-external-api** 스킬을 참조한다.
 
 ## Device 수정 체크리스트
 
@@ -222,8 +191,7 @@ CloudClient::getInstance()->uploadData(jsonStr, 1);
 1. 대상 파일을 수정 전에 읽었는가?
 2. `Copyright (c) Robert Bosch`가 있는 파일이면 Protected Region 안에서만 수정하는가?
 3. `START`만 있는 블록을 `ENABLED START`로 변환했는가?
-4. External API 요청/응답 흐름이 프로젝트 프로토콜 규칙을 따르는가?
-5. 클라우드 응답은 비동기 리스너 엔트리포인트에서 처리하는가?
+4. External API 호출이 필요하면 `fdk-external-api` 스킬 패턴을 따르는가?
 6. 로깅 레벨 선택이 의도적이고 일관적인가?
 7. 무관한 포맷팅이나 생성 코드 변경이 없는가?
 8. 커스텀 코드 파일에 `@author` 표기가 있는가?
