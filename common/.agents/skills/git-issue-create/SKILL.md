@@ -1,14 +1,11 @@
 ---
 name: git-issue-create
-description: GitHub Issue 생성 스킬. 현재 레포의 `.github/ISSUE_TEMPLATE`을 우선으로 Feature/Task/Bug 이슈를 생성하고, 연결된 프로젝트가 있으면 Project에 추가한다. AI가 작성한 이슈/코멘트/PR/커밋 텍스트에는 `AI created`를 반드시 포함한다.
+description: GitHub Issue 생성 스킬. `AGMO-Inc/.github/.github/ISSUE_TEMPLATE`을 단일 SSOT로 Feature/Task/Bug 이슈를 생성한다. 연결된 프로젝트가 있으면 Project에 추가하며, AI가 작성한 이슈/코멘트/PR/커밋 텍스트에는 `AI created`를 반드시 포함한다.
 ---
 
 # GitHub Issue 생성
 
-현재 작업 레포의 `.github/ISSUE_TEMPLATE`을 SSOT로 사용한다.
-
-- 1순위: 현재 레포 `.github/ISSUE_TEMPLATE`
-- 2순위(폴백): `AGMO-Inc/.github/.github/ISSUE_TEMPLATE`
+`AGMO-Inc/.github/.github/ISSUE_TEMPLATE`을 단일 SSOT로 사용한다.
 
 `04-문서화.md`, `05-주간회의.md`는 본 스킬의 생성 대상이 아니다.
 
@@ -22,13 +19,13 @@ REPO=$(git remote get-url origin | sed -E 's#.+[:/]([^/]+/[^/.]+)(\.git)?$#\1#')
 
 ## 0-1. 템플릿 확인
 
-이슈 생성 전에 대상 레포의 템플릿 파일/필드명을 확인한다.
+이슈 생성 전에 공용 SSOT 템플릿 파일/필드명을 먼저 확인한다.
 
 ```bash
-gh api "repos/$REPO/contents/.github/ISSUE_TEMPLATE"
+gh api "repos/AGMO-Inc/.github/contents/.github/ISSUE_TEMPLATE?ref=main"
 ```
 
-템플릿이 없거나 접근 불가하면 `AGMO-Inc/.github` 템플릿으로 폴백한다.
+공용 템플릿 접근이 불가하면 오류를 보고하고 이슈 생성을 중단한다.
 
 ## 1. 이슈 유형 선택
 
@@ -74,30 +71,51 @@ issue_url="$(gh issue create \
   --title "[Feature] {이슈 한줄 요약}" \
   --body '> 🤖 **AI created**
 ## 1. 한 줄 요약
-{요약}
+ex. 디바이스 소유권 변경 기능 추가
 ## 2. 배경/문제
-- 왜 필요한가: {설명}
-- 현재 불편/리스크/요구사항 변화: {설명}
+- 왜 필요한가:
+- 현재 불편/리스크/요구사항 변화:
 ## 3. 요구 사항
-- [ ] (필수) {요구사항1}
-- [ ] (필수) {요구사항2}
+- [ ] (필수) 관리자는 디바이스 소유권을 변경할 수 있어야 한다.
+- [ ] (필수) 관리자는 디바이스의 소유자를 알 수 있어야 한다.
+- [ ] (선택) 탈퇴한 회원에게 디바이스 소유권이 이전되지 않아야 한다.
+- [ ] 추가적인 요구사항...
+- [ ] (선택) (성능/응답시간/캐싱/동시성 요구)
+- [ ] (선택) (로깅/모니터링/알림)
+- [ ] (선택) 호환성(버전/마이그레이션/하위호환)
+- [ ] 등등..
 ## 4. 작업 항목
-- [ ] {작업1}
-- [ ] {작업2}
+- [ ] 디바이스 소유권 변경 UI 개발
+- [ ] 디바이스 소유권 변경 API 개발
+- [ ] 유닛 테스트
 ## 5. 참고
-- 관련 이슈/PR: {링크}
-- 레퍼런스 문서/스펙: {링크}
-- 스크린샷/로그: {링크}
+- 관련 이슈/PR:
+- 레퍼런스 문서/스펙:
+- 스크린샷/로그:
 ## 6. 수용 기준 (선택)
 - [ ] AC-01: Given ... When ... Then ...
+- [ ] AC-02: Given 요청 생성, When 처리 시작, Then 상태가 `REQUESTED`로 기록된다.
+- [ ] AC-03: Given 실패 조건, When 타임아웃/검증 실패, Then `reasonCode`/`reasonMessage`를 조회할 수 있다.
 ## 7. 상태 모델 (선택)
-- REQUESTED -> ... -> SUCCEEDED
+- REQUESTED -> COMMAND_SENT -> DOWNLOADING -> INSTALLING -> REBOOTING -> SUCCEEDED
+- 실패 전이: FAILED_VALIDATION | FAILED_DELIVERY | FAILED_DOWNLOAD | FAILED_INSTALL | FAILED_HEALTHCHECK | FAILED_TIMEOUT
+- 정책상 재시도 시: FAILED_* -> REQUESTED
+- 운영 상태: CANCELLED | ROLLED_BACK
 ## 8. API/프로토콜 (선택)
-- User API: GET/POST ...
+- User API: GET /api/v1/... , POST /api/v1/...
+- Admin API: POST /api/v1/admin/... (생성/중단/재개)
+- Async channel: MQTT topic or webhook/event
+- report payload: jobId, status, progress, reasonCode, reasonMessage, reportedAt
 ## 9. 데이터 모델 (선택)
-- main table/entity: ...
+- main entity/table: feature_job(job_id, status, attempt, requested_at, updated_at)
+- history table: feature_job_history(job_id, from_status, to_status, reason_code, reason_message, changed_at)
+- related artifact/config: version, target, checksum
+- index/constraint/migration note:
 ## 10. 비기능 요구사항 (선택)
-- latency/reliability/alarm: ...'
+- latency: 상태 변경 이벤트 처리 P95 < 5s
+- api performance: 상태 조회 API P95 < 300ms
+- reliability: 성공률/실패율 메트릭 수집 가능
+- alarm: 실패율 임계치/타임아웃/DLQ 알람 발송'
 )"
 ```
 
@@ -109,9 +127,9 @@ issue_url="$(gh issue create \
   --title "[Task] {상위 기능 제목} - {하위 태스크 요약}" \
   --body '> 🤖 **AI created**
 ## 상위 Feature
-#{이슈번호}
+ex. #123
 ## 1. 작업 요약
-{작업 요약}
+ex. 디바이스 소유권 테이블 스키마 설계
 ## 2. 체크리스트
 - [ ] API 개발...
 - [ ] 테스트 케이스 작성 ...
@@ -122,9 +140,9 @@ issue_url="$(gh issue create \
 - When ...
 - Then ...
 ## 5. 검증 로그/링크 (선택)
-- 테스트 결과: ...
-- 스크린샷: ...
-- 로그 링크: ...'
+- 테스트 결과:
+- 스크린샷:
+- 로그 링크:'
 )"
 ```
 
@@ -206,4 +224,4 @@ fi
 1. 이슈 유형이 명시되지 않으면 반드시 사용자에게 확인한다 (Feature/Task/Bug 중 선택).
 2. AI가 작성한 모든 텍스트에 `AI created` 표시를 포함한다.
 3. 프로젝트 연결 실패 시 오류를 보고하고 이슈 생성은 유지한다.
-4. 템플릿 파일명/필드명이 레포마다 다를 수 있으므로 생성 전 `.github/ISSUE_TEMPLATE`를 항상 먼저 확인한다.
+4. 템플릿 파일명/필드명이 바뀔 수 있으므로 생성 전 `AGMO-Inc/.github/.github/ISSUE_TEMPLATE`를 반드시 확인한다. 접근 불가 시 오류를 보고하고 이슈 생성을 중단한다.
