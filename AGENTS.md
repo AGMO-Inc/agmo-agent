@@ -10,7 +10,7 @@ It is NOT an application repo, so most commands here validate tooling/templates 
 - `backend/AGENTS.md`: AGENTS template for Kotlin/Spring backend repos (example: sdm-backend).
 - `backend/.agents/`: backend-specific skills (ex: Swagger).
 - `common/.agents/`: shared skills used across repos (issue start, git commit, PR, skill-creator, etc).
-- `docs/guide/`: installer/how-to docs for setting up AGENTS + `.claude/` in another repo.
+- `docs/guide/`: installer/how-to docs for setting up AGENTS + `.agents/` in another repo.
 - `.opencode/`: local OpenCode runtime files (ignored; do not commit).
 
 ## Build / Lint / Test Commands
@@ -56,7 +56,7 @@ For downstream backend repos that include Gradle wrapper and sources:
 
 ## Agent Rules (Repo-Specific)
 
-- Do not commit personal agent runtime directories: `.opencode/`, `.claude/`, etc.
+- Do not commit personal agent runtime directories: `.opencode/`, `.agents/`, etc.
 - Treat `docs/guide/installation.md` as the setup SSOT for installing this kit into another repo.
 - Prefer small, reviewable diffs. This repo is copied/consumed by other repos.
 
@@ -85,7 +85,7 @@ General:
 Formatting:
 
 - Wrap CLI commands in fenced code blocks with `bash`.
-- Use backticks for file paths and literal tokens (ex: `.claude`).
+- Use backticks for file paths and literal tokens (ex: `.agents`).
 - Keep lines reasonably short in lists; prefer one idea per bullet.
 
 ### Skill Authoring (`**/.agents/skills/<skill-name>/SKILL.md`)
@@ -106,7 +106,7 @@ Conventions:
 - Keep SKILL.md concise; put large reference material under `references/`.
 - Prefer imperative headings and checklists that are easy for agents to execute.
 - In this repository, keep source assets under `common/.agents/` and `<type>/.agents/`.
-- In downstream installed repositories, the runtime root is `./.claude/`.
+- In downstream installed repositories, the runtime root is `./.agents/`.
 
 Bundled resources:
 

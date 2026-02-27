@@ -71,6 +71,8 @@ TODO-Issue.md
 EOF
 ```
 
+`handoff.md`는 세션 중 생성되는 런타임 파일이므로 템플릿 소스에는 포함하지 않고, git으로 추적하지 않는다.
+
 ## Step 4: Download `.claude/` files
 
 First, set `TYPE` as an environment variable using the value you answered in Step 0 (`backend`, `frontend`, or `custom`).

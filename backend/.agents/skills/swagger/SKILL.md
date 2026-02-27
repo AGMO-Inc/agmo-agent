@@ -16,19 +16,19 @@ Swagger 컨벤션 문서의 목적은 다음과 같다.
 
 Swagger 어노테이션이 과도해져 Controller 구현체를 오염시키는 문제를 피하기 위해 인터페이스로 문서만 분리한다.
 
-해당 구조 예시는 `.claude/skills/swagger/examples.md`를 참고한다.
+해당 구조 예시는 `.agents/skills/swagger/examples.md`를 참고한다.
 
 ## 참고
 - 어노테이션 사용 시 아래 어노테이션 문서를 참고한다.
 - 어노테이션 문서(규칙 + 예제)
   - ApiDocs 인터페이스에서 사용되는 어노테이션
-- `.claude/skills/swagger/anotations/Tag.md`
-- `.claude/skills/swagger/anotations/Operation.md`
-- `.claude/skills/swagger/anotations/Parameter.md`
-- `.claude/skills/swagger/anotations/ApiResponses.md`
-- `.claude/skills/swagger/anotations/SecurityRequirement.md`
-- `.claude/skills/swagger/anotations/ParameterObject.md`
+- `.agents/skills/swagger/anotations/Tag.md`
+- `.agents/skills/swagger/anotations/Operation.md`
+- `.agents/skills/swagger/anotations/Parameter.md`
+- `.agents/skills/swagger/anotations/ApiResponses.md`
+- `.agents/skills/swagger/anotations/SecurityRequirement.md`
+- `.agents/skills/swagger/anotations/ParameterObject.md`
   - DTO 클래스에서 사용되는 어노테이션
-- `.claude/skills/swagger/anotations/Schema.md`
-- `.claude/skills/swagger/anotations/ArraySchema.md`
-- `.claude/skills/swagger/anotations/Hidden.md`
+- `.agents/skills/swagger/anotations/Schema.md`
+- `.agents/skills/swagger/anotations/ArraySchema.md`
+- `.agents/skills/swagger/anotations/Hidden.md`
