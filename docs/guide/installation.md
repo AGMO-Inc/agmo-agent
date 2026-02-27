@@ -71,7 +71,7 @@ TODO-Issue.md
 EOF
 ```
 
-## Step 4: Download `.agents/` files
+## Step 4: Download `.cluade/` files
 
 First, set `TYPE` as an environment variable using the value you answered in Step 0 (`backend`, `frontend`, or `custom`).
 
@@ -79,11 +79,11 @@ First, set `TYPE` as an environment variable using the value you answered in Ste
 export TYPE="backend"  # or: frontend / custom
 ```
 
-Then run the script below to download the `.agents/` files for TYPE.
+Then run the script below to download the `.cluade/` files for TYPE.
 
 규칙:
 
-- 기존 `./.agents/`의 다른 파일은 건들지 않는다.
+- 기존 `./.cluade/`의 다른 파일은 건들지 않는다.
 - 동일한 파일/디렉토리명이 이미 있으면 덮어쓴다.
 - 존재하지 않으면 새로 추가한다.
 
@@ -92,16 +92,16 @@ curl -L -o repo.zip "https://github.com/AGMO-Inc/agmo-agent/archive/refs/heads/m
 && tmp="$(mktemp -d)" \
 && unzip -q repo.zip -d "$tmp" \
 && root="$(find "$tmp" -mindepth 1 -maxdepth 1 -type d | head -n 1)" \
-&& mkdir -p "./.agents" \
-&& cp -R "$root/$TYPE/.agents/." "./.agents/" \
-&& cp -R "$root/common/.agents/." "./.agents/" \
+&& mkdir -p "./.cluade" \
+&& cp -R "$root/$TYPE/.cluade/." "./.cluade/" \
+&& cp -R "$root/common/.cluade/." "./.cluade/" \
 && rm -rf "$tmp" repo.zip
 ```
 
 ### Verify (optional)
 
 ```bash
-ls -la .agents
+ls -la .cluade
 ```
 
 ## Step 5: Download `.github/workflows/` files (gitflow)

@@ -2,15 +2,15 @@
 
 Working agreement for humans, CI, bots, and agentic coding tools in this repository.
 
-This repo is an internal, shared "agent kit" for AGMO: templates (AGENTS.md) + reusable skills under `.agents/`.
+This repo is an internal, shared "agent kit" for AGMO: templates (AGENTS.md) + reusable skills under `.cluade/`.
 It is NOT an application repo, so most commands here validate tooling/templates rather than build a product.
 
 ## Repo Map
 
 - `backend/AGENTS.md`: AGENTS template for Kotlin/Spring backend repos (example: sdm-backend).
-- `backend/.agents/`: backend-specific skills (ex: Swagger).
-- `common/.agents/`: shared skills used across repos (issue start, git commit, PR, skill-creator, etc).
-- `docs/guide/`: installer/how-to docs for setting up AGENTS + `.agents/` in another repo.
+- `backend/.cluade/`: backend-specific skills (ex: Swagger).
+- `common/.cluade/`: shared skills used across repos (issue start, git commit, PR, skill-creator, etc).
+- `docs/guide/`: installer/how-to docs for setting up AGENTS + `.cluade/` in another repo.
 - `.opencode/`: local OpenCode runtime files (ignored; do not commit).
 
 ## Build / Lint / Test Commands
@@ -20,30 +20,30 @@ It is NOT an application repo, so most commands here validate tooling/templates 
 There is no single "build" for this repo.
 
 - Python sanity check (byte-compile scripts):
-  - `python3 -m compileall common/.agents/skills/skill-creator/scripts`
+  - `python3 -m compileall common/.cluade/skills/skill-creator/scripts`
 
 - Validate ONE skill folder (fast correctness check; closest equivalent to "run single test"):
-  - `python3 common/.agents/skills/skill-creator/scripts/quick_validate.py <path/to/skill-dir>`
+  - `python3 common/.cluade/skills/skill-creator/scripts/quick_validate.py <path/to/skill-dir>`
   - Example:
-    - `python3 common/.agents/skills/skill-creator/scripts/quick_validate.py common/.agents/skills/git-commit`
+    - `python3 common/.cluade/skills/skill-creator/scripts/quick_validate.py common/.cluade/skills/git-commit`
   - Note: requires PyYAML (`import yaml`).
 
 - Package ONE skill folder into a `.skill` zip:
-  - `python3 common/.agents/skills/skill-creator/scripts/package_skill.py <path/to/skill-dir> [output-dir]`
+  - `python3 common/.cluade/skills/skill-creator/scripts/package_skill.py <path/to/skill-dir> [output-dir]`
   - Packaging runs validation first.
 
 - Create a new skill skeleton:
-  - `python3 common/.agents/skills/skill-creator/scripts/init_skill.py <skill-name> --path <skills-root>`
+  - `python3 common/.cluade/skills/skill-creator/scripts/init_skill.py <skill-name> --path <skills-root>`
 
 ### Quick Checks (common workflows)
 
 - Validate the Swagger skill template:
-  - `python3 common/.agents/skills/skill-creator/scripts/quick_validate.py backend/.agents/skills/swagger`
+  - `python3 common/.cluade/skills/skill-creator/scripts/quick_validate.py backend/.cluade/skills/swagger`
 - Validate the skill-creator skill itself:
-  - `python3 common/.agents/skills/skill-creator/scripts/quick_validate.py common/.agents/skills/skill-creator`
+  - `python3 common/.cluade/skills/skill-creator/scripts/quick_validate.py common/.cluade/skills/skill-creator`
 - Validate all common skills (repeat per directory):
-  - `ls common/.agents/skills`
-  - Run `quick_validate.py` on each folder under `common/.agents/skills/`.
+  - `ls common/.cluade/skills`
+  - Run `quick_validate.py` on each folder under `common/.cluade/skills/`.
 
 ### Template: Kotlin/Spring Backend Repos (via `backend/AGENTS.md`)
 
@@ -85,12 +85,12 @@ General:
 Formatting:
 
 - Wrap CLI commands in fenced code blocks with `bash`.
-- Use backticks for file paths and literal tokens (ex: `.agents`).
+- Use backticks for file paths and literal tokens (ex: `.cluade`).
 - Keep lines reasonably short in lists; prefer one idea per bullet.
 
-### Skill Authoring (`**/.agents/skills/<skill-name>/SKILL.md`)
+### Skill Authoring (`**/.cluade/skills/<skill-name>/SKILL.md`)
 
-Follow the validator constraints in `common/.agents/skills/skill-creator/scripts/quick_validate.py`:
+Follow the validator constraints in `common/.cluade/skills/skill-creator/scripts/quick_validate.py`:
 
 - Frontmatter:
   - Must start with `---` YAML frontmatter.
@@ -105,7 +105,7 @@ Conventions:
 
 - Keep SKILL.md concise; put large reference material under `references/`.
 - Prefer imperative headings and checklists that are easy for agents to execute.
-- When referencing the agent directory root in docs/templates, use `.agents` (fixed location).
+- When referencing the agent directory root in docs/templates, use `.cluade` (fixed location).
 
 Bundled resources:
 
