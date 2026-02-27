@@ -1,11 +1,11 @@
 ---
 name: agmo-agent-update
-description: 레포의 `.agents/skills/`, `.agents/commands/`, `.github/workflows/`를 AGMO-Inc/agmo-agent의 최신 내용과 비교해 차이점을 표로 보고하고, 사용자가 선택한 범위만 안전하게 업데이트하는 커맨드다. `/agmo-agent-update [common|backend|frontend|custom|item-name]` 형태를 지원하며, 업데이트 적용 전 반드시 사용자 선택(전부/없음/부분)을 강제한다.
+description: 레포의 local agent runtime(예: `.claude`, `.agents`, `.opencode`, `.codex`)의 `skills/commands`와 `.github/workflows/`를 AGMO-Inc/agmo-agent의 canonical source(`common/.agents`, `<type>/.agents`)와 비교해 차이점을 표로 보고하고, 사용자가 선택한 범위만 안전하게 업데이트하는 커맨드다. `/agmo-agent-update [common|backend|frontend|custom|item-name]` 형태를 지원하며, 업데이트 적용 전 반드시 사용자 선택(전부/없음/부분)을 강제한다.
 ---
 
 # AGMO Agent Update Command
 
-이 커맨드는 "현재 레포"의 `.agents/`(skills + commands)와 `.github/workflows/`를 기준으로, 원본 레포 `AGMO-Inc/agmo-agent`와의 차이점을 비교/정리하고 선택된 항목만 업데이트한다.
+이 커맨드는 "현재 레포"의 local agent runtime 디렉토리(예: `.claude/`, `.agents/`, `.opencode/`, `.codex/`)의 `skills + commands`와 `.github/workflows/`를 기준으로, 원본 레포 `AGMO-Inc/agmo-agent`의 source(`.agents/`)와 차이점을 비교/정리하고 선택된 항목만 업데이트한다.
 
 ## Command Forms
 
@@ -23,6 +23,7 @@ description: 레포의 `.agents/skills/`, `.agents/commands/`, `.github/workflow
 
 - Optional argument: `common`, `backend`, `frontend`, `custom`, or `item-name`
 - Repo type: `AGENTS.md` YAML frontmatter의 `type: backend|frontend|custom`
+- Local agent root: 현재 레포에서 실제로 사용 중인 runtime root (예: `.claude`, `.agents`, `.opencode`, `.codex`)
 
 ## Workflow (MUST FOLLOW)
 
@@ -32,7 +33,30 @@ description: 레포의 `.agents/skills/`, `.agents/commands/`, `.github/workflow
 2. argument가 없으면 `AGENTS.md`의 frontmatter에서 `type:`을 읽는다.
    - 없으면 사용자에게 type을 묻고(backend/frontend/custom), 그 답으로 진행한다.
 
-### 2) Fetch canonical `.agents` and workflow templates from AGMO-Inc/agmo-agent
+### 2) Detect local agent root
+
+현재 레포의 agent runtime root를 먼저 감지한다.
+
+```bash
+candidates=(".claude" ".agents" ".opencode" ".codex")
+detected=()
+
+for d in "${candidates[@]}"; do
+  if [ -d "./$d/skills" ] || [ -d "./$d/commands" ]; then
+    detected+=("$d")
+  fi
+done
+```
+
+판정 규칙:
+
+1. `detected`가 1개면 그 값을 `LOCAL_AGENT_ROOT`로 사용한다.
+2. `detected`가 2개 이상이면 사용자에게 사용할 root를 하나 선택받는다.
+3. `detected`가 0개면 사용자에게 root를 입력받는다.
+   - 기본값은 `.claude`
+   - 입력값이 `.claude/.agents/.opencode/.codex`가 아니어도 허용한다.
+
+### 3) Fetch canonical `.agents` and workflow templates from AGMO-Inc/agmo-agent
 
 아래 방식 중 하나로 canonical repo를 임시 디렉토리에 받는다(둘 다 가능).
 
@@ -61,13 +85,13 @@ Canonical paths:
 - `type commands`: `$root/<type>/.agents/commands/`
 - `workflow templates`: `$root/common/.github/workflows/`
 
-Local paths:
+Local paths (`LOCAL_AGENT_ROOT` 기준):
 
-- `./.agents/skills/`
-- `./.agents/commands/`
+- `./$LOCAL_AGENT_ROOT/skills/`
+- `./$LOCAL_AGENT_ROOT/commands/`
 - `./.github/workflows/`
 
-### 3) Build comparison sets
+### 4) Build comparison sets
 
 scope에 따라 canonical source set을 만든다:
 
@@ -81,7 +105,7 @@ scope에 따라 canonical source set을 만든다:
 - 동일 이름이 `common`과 `type`에 동시에 있으면, 표에서 source를 분리해 보여주고(2행), 업데이트 적용 시에도 사용자가 source를 선택할 수 있어야 한다.
 - 동일 이름이 `skills`와 `commands`에 동시에 있을 수 있다. 이 경우에도 표에서 kind를 분리해 보여준다(2행).
 
-### 4) Compute diffs
+### 5) Compute diffs
 
 각 item(스킬/커맨드/워크플로우) 단위로 상태를 계산한다.
 
@@ -95,7 +119,7 @@ scope에 따라 canonical source set을 만든다:
 - 빠른 비교: `diff -qr <canonical-dir> <local-dir>`
 - 사람이 읽기 좋은 diff: `git diff --no-index -- <canonical-dir> <local-dir>`
 
-### 5) Present results (MUST use table)
+### 6) Present results (MUST use table)
 
 반드시 아래 출력 템플릿을 그대로 사용한다.
 
@@ -104,8 +128,8 @@ scope에 따라 canonical source set을 만든다:
 
 | # | Kind | Name | Source | Status | Local Path | Canonical Path | Notes |
 |---|------|------|--------|--------|------------|----------------|-------|
-| 1 | skill | swagger | type=backend | MODIFY | .agents/skills/swagger | <tmp>/backend/.agents/skills/swagger | 3 files changed |
-| 2 | command | agmo-agent-update | common | ADD | .agents/commands/agmo-agent-update | <tmp>/common/.agents/commands/agmo-agent-update | new |
+| 1 | skill | swagger | type=backend | MODIFY | $LOCAL_AGENT_ROOT/skills/swagger | <tmp>/backend/.agents/skills/swagger | 3 files changed |
+| 2 | command | agmo-agent-update | common | ADD | $LOCAL_AGENT_ROOT/commands/agmo-agent-update | <tmp>/common/.agents/commands/agmo-agent-update | new |
 | 3 | workflow | ai-review-custom.yml | common | MODIFY | .github/workflows/ai-review-custom.yml | <tmp>/common/.github/workflows/ai-review-custom.yml | 1 line changed |
 
 ## Per-Item Notes (optional)
@@ -127,23 +151,23 @@ If 3, also reply with row numbers: e.g. 3: 1,4,7
 - `SAME`은 rows가 너무 많으면 생략하고 count만 별도로 표기해도 된다.
 - 어떤 경우에도 업데이트를 바로 적용하지 않는다. 반드시 사용자 선택을 먼저 받는다.
 
-### 6) Force user choice
+### 7) Force user choice
 
 사용자가 1/2/3 중 하나를 명확히 선택할 때까지 다음 단계를 진행하지 않는다.
 
-### 7) Apply updates (only after user selection)
+### 8) Apply updates (only after user selection)
 
 선택된 rows에 대해서만 업데이트한다.
 
 안전 절차:
 
 1. 백업 생성(선택된 item별로 디렉토리 단위 백업):
-   - `.agents/.backup/agmo-agent-update/<timestamp>/<kind>/<name>/`
+   - `$LOCAL_AGENT_ROOT/.backup/agmo-agent-update/<timestamp>/<kind>/<name>/`
     - 여기서 `kind`는 `skills` 또는 `commands` 디렉토리를 의미한다.
 2. 업데이트 적용:
    - `ADD`:
-     - kind=skill -> canonical dir을 local `.agents/skills/<name>`로 복사
-     - kind=command -> canonical dir을 local `.agents/commands/<name>`로 복사
+     - kind=skill -> canonical dir을 local `$LOCAL_AGENT_ROOT/skills/<name>`로 복사
+     - kind=command -> canonical dir을 local `$LOCAL_AGENT_ROOT/commands/<name>`로 복사
     - `MODIFY`:
       - 기존 local dir을 백업 후, canonical dir로 덮어쓰기
    - `workflow`:
@@ -156,7 +180,7 @@ If 3, also reply with row numbers: e.g. 3: 1,4,7
 4. 적용 후 재검증:
    - 선택된 item에 대해 다시 diff를 실행해서 `SAME`이 되었는지 확인한다.
 
-### 8) Report result
+### 9) Report result
 
 - 적용한 item 목록
 - 백업 경로
@@ -180,8 +204,7 @@ fallback:
 
 ## Safety Rules
 
-- 사용자 선택 없이 `.agents/(skills|commands)/`를 변경하지 않는다.
-- 사용자 선택 없이 `.agents/(skills|commands)/` 또는 `.github/workflows/`를 변경하지 않는다.
+- 사용자 선택 없이 `$LOCAL_AGENT_ROOT/(skills|commands)/` 또는 `.github/workflows/`를 변경하지 않는다.
 - 삭제는 기본 금지(추가 확인 필수).
 - `.env`, credentials, secret류 파일을 복사/덮어쓰지 않는다(해당 파일이 감지되면 표에서 경고하고 업데이트 제외).
 - 커밋/푸시는 사용자가 명시적으로 요청할 때만 한다.

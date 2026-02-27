@@ -2,7 +2,7 @@
 
 Working agreement for humans, CI, bots, and agentic coding tools in this repository.
 
-This repo is an internal, shared "agent kit" for AGMO: templates (AGENTS.md) + reusable skills under `.agents/`.
+This repo is an internal, shared "agent kit" for AGMO: templates (AGENTS.md) + reusable skill sources under `common/.agents/` and `<type>/.agents/`.
 It is NOT an application repo, so most commands here validate tooling/templates rather than build a product.
 
 ## Repo Map
@@ -56,7 +56,7 @@ For downstream backend repos that include Gradle wrapper and sources:
 
 ## Agent Rules (Repo-Specific)
 
-- Do not commit personal agent runtime directories: `.opencode/`, `.claude/`, etc.
+- Do not commit personal agent runtime directories: `.opencode/`, `.agents/`, etc.
 - Treat `docs/guide/installation.md` as the setup SSOT for installing this kit into another repo.
 - Prefer small, reviewable diffs. This repo is copied/consumed by other repos.
 
@@ -105,7 +105,8 @@ Conventions:
 
 - Keep SKILL.md concise; put large reference material under `references/`.
 - Prefer imperative headings and checklists that are easy for agents to execute.
-- When referencing the agent directory root in docs/templates, use `.agents` (fixed location).
+- In this repository, keep source assets under `common/.agents/` and `<type>/.agents/`.
+- In downstream installed repositories, the runtime root is `./.agents/`.
 
 Bundled resources:
 

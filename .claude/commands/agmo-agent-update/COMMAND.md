@@ -1,20 +1,20 @@
 ---
 name: agmo-agent-update
-description: 레포의 `.agents/skills/`, `.agents/commands/`, `.github/workflows/`를 AGMO-Inc/agmo-agent의 최신 내용과 비교해 차이점을 표로 보고하고, 사용자가 선택한 범위만 안전하게 업데이트하는 커맨드다. `/agmo-agent-update [common|backend|frontend|custom|item-name]` 형태를 지원하며, 업데이트 적용 전 반드시 사용자 선택(전부/없음/부분)을 강제한다.
+description: 레포의 `.claude/skills/`, `.claude/commands/`, `.github/workflows/`를 AGMO-Inc/agmo-agent의 최신 내용과 비교해 차이점을 표로 보고하고, 사용자가 선택한 범위만 안전하게 업데이트하는 커맨드다. `/agmo-agent-update [common|backend|frontend|custom|item-name]` 형태를 지원하며, 업데이트 적용 전 반드시 사용자 선택(전부/없음/부분)을 강제한다.
 ---
 
 # AGMO Agent Update Command
 
-이 커맨드는 "현재 레포"의 `.agents/`(skills + commands)와 `.github/workflows/`를 기준으로, 원본 레포 `AGMO-Inc/agmo-agent`와의 차이점을 비교/정리하고 선택된 항목만 업데이트한다.
+이 커맨드는 "현재 레포"의 `.claude/`(skills + commands)와 `.github/workflows/`를 기준으로, 원본 레포 `AGMO-Inc/agmo-agent`와의 차이점을 비교/정리하고 선택된 항목만 업데이트한다.
 
 ## Command Forms
 
 - `/agmo-agent-update`
   - `AGENTS.md` frontmatter의 `type:`을 읽어 기본 타입을 결정한 뒤, `common + type`을 함께 비교한다.
 - `/agmo-agent-update common`
-  - `common/.agents/(skills|commands)`와 `common/.github/workflows`를 비교/업데이트 준비한다.
+  - `common/.claude/(skills|commands)`와 `common/.github/workflows`를 비교/업데이트 준비한다.
 - `/agmo-agent-update backend|frontend|custom`
-  - 해당 타입의 `{type}/.agents/(skills|commands)`만 비교/업데이트 준비한다.
+  - 해당 타입의 `{type}/.claude/(skills|commands)`만 비교/업데이트 준비한다.
 - `/agmo-agent-update item-name`
   - 이름이 `item-name`인 skill/command만 비교/업데이트 준비한다.
   - 기본 타입이 있으면 `{type}`와 `common` 둘 다에서 해당 이름을 찾아 비교한다.
@@ -32,7 +32,7 @@ description: 레포의 `.agents/skills/`, `.agents/commands/`, `.github/workflow
 2. argument가 없으면 `AGENTS.md`의 frontmatter에서 `type:`을 읽는다.
    - 없으면 사용자에게 type을 묻고(backend/frontend/custom), 그 답으로 진행한다.
 
-### 2) Fetch canonical `.agents` and workflow templates from AGMO-Inc/agmo-agent
+### 2) Fetch canonical `.claude` and workflow templates from AGMO-Inc/agmo-agent
 
 아래 방식 중 하나로 canonical repo를 임시 디렉토리에 받는다(둘 다 가능).
 
@@ -55,16 +55,16 @@ tmp="$(mktemp -d)" \
 
 Canonical paths:
 
-- `common skills`: `$root/common/.agents/skills/`
-- `common commands`: `$root/common/.agents/commands/`
-- `type skills`: `$root/<type>/.agents/skills/`
-- `type commands`: `$root/<type>/.agents/commands/`
+- `common skills`: `$root/common/.claude/skills/`
+- `common commands`: `$root/common/.claude/commands/`
+- `type skills`: `$root/<type>/.claude/skills/`
+- `type commands`: `$root/<type>/.claude/commands/`
 - `workflow templates`: `$root/common/.github/workflows/`
 
 Local paths:
 
-- `./.agents/skills/`
-- `./.agents/commands/`
+- `./.claude/skills/`
+- `./.claude/commands/`
 - `./.github/workflows/`
 
 ### 3) Build comparison sets
@@ -104,8 +104,8 @@ scope에 따라 canonical source set을 만든다:
 
 | # | Kind | Name | Source | Status | Local Path | Canonical Path | Notes |
 |---|------|------|--------|--------|------------|----------------|-------|
-| 1 | skill | swagger | type=backend | MODIFY | .agents/skills/swagger | <tmp>/backend/.agents/skills/swagger | 3 files changed |
-| 2 | command | agmo-agent-update | common | ADD | .agents/commands/agmo-agent-update | <tmp>/common/.agents/commands/agmo-agent-update | new |
+| 1 | skill | swagger | type=backend | MODIFY | .claude/skills/swagger | <tmp>/backend/.claude/skills/swagger | 3 files changed |
+| 2 | command | agmo-agent-update | common | ADD | .claude/commands/agmo-agent-update | <tmp>/common/.claude/commands/agmo-agent-update | new |
 | 3 | workflow | ai-review-custom.yml | common | MODIFY | .github/workflows/ai-review-custom.yml | <tmp>/common/.github/workflows/ai-review-custom.yml | 1 line changed |
 
 ## Per-Item Notes (optional)
@@ -138,12 +138,12 @@ If 3, also reply with row numbers: e.g. 3: 1,4,7
 안전 절차:
 
 1. 백업 생성(선택된 item별로 디렉토리 단위 백업):
-   - `.agents/.backup/agmo-agent-update/<timestamp>/<kind>/<name>/`
+   - `.claude/.backup/agmo-agent-update/<timestamp>/<kind>/<name>/`
     - 여기서 `kind`는 `skills` 또는 `commands` 디렉토리를 의미한다.
 2. 업데이트 적용:
    - `ADD`:
-     - kind=skill -> canonical dir을 local `.agents/skills/<name>`로 복사
-     - kind=command -> canonical dir을 local `.agents/commands/<name>`로 복사
+     - kind=skill -> canonical dir을 local `.claude/skills/<name>`로 복사
+     - kind=command -> canonical dir을 local `.claude/commands/<name>`로 복사
     - `MODIFY`:
       - 기존 local dir을 백업 후, canonical dir로 덮어쓰기
    - `workflow`:
@@ -180,8 +180,8 @@ fallback:
 
 ## Safety Rules
 
-- 사용자 선택 없이 `.agents/(skills|commands)/`를 변경하지 않는다.
-- 사용자 선택 없이 `.agents/(skills|commands)/` 또는 `.github/workflows/`를 변경하지 않는다.
+- 사용자 선택 없이 `.claude/(skills|commands)/`를 변경하지 않는다.
+- 사용자 선택 없이 `.claude/(skills|commands)/` 또는 `.github/workflows/`를 변경하지 않는다.
 - 삭제는 기본 금지(추가 확인 필수).
 - `.env`, credentials, secret류 파일을 복사/덮어쓰지 않는다(해당 파일이 감지되면 표에서 경고하고 업데이트 제외).
 - 커밋/푸시는 사용자가 명시적으로 요청할 때만 한다.
