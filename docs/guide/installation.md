@@ -93,8 +93,8 @@ curl -L -o repo.zip "https://github.com/AGMO-Inc/agmo-agent/archive/refs/heads/m
 && unzip -q repo.zip -d "$tmp" \
 && root="$(find "$tmp" -mindepth 1 -maxdepth 1 -type d | head -n 1)" \
 && mkdir -p "./.claude" \
-&& cp -R "$root/$TYPE/.claude/." "./.claude/" \
-&& cp -R "$root/common/.claude/." "./.claude/" \
+&& cp -R "$root/$TYPE/.agents/." "./.claude/" \
+&& cp -R "$root/common/.agents/." "./.claude/" \
 && rm -rf "$tmp" repo.zip
 ```
 

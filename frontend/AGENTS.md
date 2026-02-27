@@ -41,5 +41,5 @@ This file is the working agreement for humans and automation (CI, bots, AI agent
 
 ## 스킬
 
-- 실행 절차(이슈 시작, 커밋, 푸시/PR 등)는 `.claude/` 하위 스킬을 참고한다.
+- 실행 절차(이슈 시작, 커밋, 푸시/PR 등)는 `.agents/` 하위 스킬을 참고한다.
 - 문서 중복을 피하기 위해 본 파일에는 절차 상세를 중복 기재하지 않는다.

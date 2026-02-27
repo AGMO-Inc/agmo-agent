@@ -43,7 +43,7 @@ curl -s https://raw.githubusercontent.com/AGMO-Inc/agmo-agent/refs/heads/main/do
 
 동작:
 
-- canonical: `AGMO-Inc/agmo-agent`에서 `common/.claude/(skills|commands)` + `{type}/.claude/(skills|commands)`를 가져와 비교
+- canonical: `AGMO-Inc/agmo-agent`에서 `common/.agents/(skills|commands)` + `{type}/.agents/(skills|commands)`를 가져와 비교
 - local: 현재 레포의 `./.claude/(skills|commands)`와 비교
 - 출력: Diff Summary 표 + "전부/없음/선택" 중 택1을 강제
 - 적용: 선택된 항목만 복사/덮어쓰기 + 백업 생성(`.claude/.backup/agmo-agent-update/...`)
@@ -66,40 +66,40 @@ curl -s https://raw.githubusercontent.com/AGMO-Inc/agmo-agent/refs/heads/main/do
 
 | Name | Path | 용도 |
 |------|------|------|
-| git-issue-start | `common/.claude/skills/git-issue-start/` | GitHub 이슈 기반으로 TODO-Issue.md 갱신 + 브랜치 생성 |
-| git-issue-list | `common/.claude/skills/git-issue-list/` | GitHub 이슈 목록 조회 및 표 형식 정리 |
-| git-issue-move | `common/.claude/skills/git-issue-move/` | GitHub 프로젝트 보드 이슈 상태 변경 |
-| git-commit | `common/.claude/skills/git-commit/` | 변경사항 점검/검증 후 커밋 생성 |
-| git-push-pr | `common/.claude/skills/git-push-pr/` | 푸시 후 PR 생성 |
-| git-pr-review-fix | `common/.claude/skills/git-pr-review-fix/` | PR AI 리뷰 확인/수정 후 커밋 |
-| git-pr-merge | `common/.claude/skills/git-pr-merge/` | PR squash merge + 이슈 완료 코멘트 |
-| skill-creator | `common/.claude/skills/skill-creator/` | 스킬 생성/검증/패키징 도구 및 가이드 |
+| git-issue-start | `common/.agents/skills/git-issue-start/` | GitHub 이슈 기반으로 TODO-Issue.md 갱신 + 브랜치 생성 |
+| git-issue-list | `common/.agents/skills/git-issue-list/` | GitHub 이슈 목록 조회 및 표 형식 정리 |
+| git-issue-move | `common/.agents/skills/git-issue-move/` | GitHub 프로젝트 보드 이슈 상태 변경 |
+| git-commit | `common/.agents/skills/git-commit/` | 변경사항 점검/검증 후 커밋 생성 |
+| git-push-pr | `common/.agents/skills/git-push-pr/` | 푸시 후 PR 생성 |
+| git-pr-review-fix | `common/.agents/skills/git-pr-review-fix/` | PR AI 리뷰 확인/수정 후 커밋 |
+| git-pr-merge | `common/.agents/skills/git-pr-merge/` | PR squash merge + 이슈 완료 코멘트 |
+| skill-creator | `common/.agents/skills/skill-creator/` | 스킬 생성/검증/패키징 도구 및 가이드 |
 
 ### 3.2 백엔드 스킬(backend)
 
 | Name | Path | 용도 |
 |------|------|------|
-| swagger | `backend/.claude/skills/swagger/` | Springdoc(OpenAPI) 기반 Swagger 어노테이션/문서화 패턴 |
-| tdd | `backend/.claude/skills/tdd/` | Kotlin + Spring + Kotest 기반 TDD(유닛/통합/플로우) 가이드 |
+| swagger | `backend/.agents/skills/swagger/` | Springdoc(OpenAPI) 기반 Swagger 어노테이션/문서화 패턴 |
+| tdd | `backend/.agents/skills/tdd/` | Kotlin + Spring + Kotest 기반 TDD(유닛/통합/플로우) 가이드 |
 
 ### 3.3 Feature 스킬(feature)
 
 | Name | Path | 용도 |
 |------|------|------|
-| device-code-style | `feature/.claude/skills/device-code-style/` | Device C++ 코딩 스타일, Protected Region, Controller 패턴 |
-| fdk-websocket | `feature/.claude/skills/fdk-websocket/` | Device-UI WebSocket JSON 통신 |
-| fdk-sensor-api | `feature/.claude/skills/fdk-sensor-api/` | 센서 데이터 읽기/쓰기, Machine lifecycle |
-| fdk-custom-ui | `feature/.claude/skills/fdk-custom-ui/` | Custom UI (Manifest, Poco HTTP, HTML/JS) |
-| fdk-imu-gnss | `feature/.claude/skills/fdk-imu-gnss/` | IMU/GNSS 센서 + NMEA 파싱 + Mock 테스트 |
-| fdk-cloud-d2d | `feature/.claude/skills/fdk-cloud-d2d/` | Cloud 업/다운로드, D2D, FileProvider |
-| fdk-build-config | `feature/.claude/skills/fdk-build-config/` | CMake, Maven, FIF 패키지, CI/CD |
-| fdk-external-api | `feature/.claude/skills/fdk-external-api/` | Cloud 프록시 경유 외부 REST API 호출 |
-| fdk-usb | `feature/.claude/skills/fdk-usb/` | USB 파일 전송, 디렉토리 관리, Mount/Unmount |
-| fdk-property-listener | `feature/.claude/skills/fdk-property-listener/` | PropertyChangeListener 이벤트 감지 |
-| ui-device-sync-build | `feature/.claude/skills/ui-device-sync-build/` | UI 빌드 → Device 디렉토리 동기화 |
+| device-code-style | `feature/.agents/skills/device-code-style/` | Device C++ 코딩 스타일, Protected Region, Controller 패턴 |
+| fdk-websocket | `feature/.agents/skills/fdk-websocket/` | Device-UI WebSocket JSON 통신 |
+| fdk-sensor-api | `feature/.agents/skills/fdk-sensor-api/` | 센서 데이터 읽기/쓰기, Machine lifecycle |
+| fdk-custom-ui | `feature/.agents/skills/fdk-custom-ui/` | Custom UI (Manifest, Poco HTTP, HTML/JS) |
+| fdk-imu-gnss | `feature/.agents/skills/fdk-imu-gnss/` | IMU/GNSS 센서 + NMEA 파싱 + Mock 테스트 |
+| fdk-cloud-d2d | `feature/.agents/skills/fdk-cloud-d2d/` | Cloud 업/다운로드, D2D, FileProvider |
+| fdk-build-config | `feature/.agents/skills/fdk-build-config/` | CMake, Maven, FIF 패키지, CI/CD |
+| fdk-external-api | `feature/.agents/skills/fdk-external-api/` | Cloud 프록시 경유 외부 REST API 호출 |
+| fdk-usb | `feature/.agents/skills/fdk-usb/` | USB 파일 전송, 디렉토리 관리, Mount/Unmount |
+| fdk-property-listener | `feature/.agents/skills/fdk-property-listener/` | PropertyChangeListener 이벤트 감지 |
+| ui-device-sync-build | `feature/.agents/skills/ui-device-sync-build/` | UI 빌드 → Device 디렉토리 동기화 |
 
 ### 3.4 공용 커맨드(common)
 
 | Name | Path | 용도 |
 |------|------|------|
-| agmo-agent-update | `common/.claude/commands/agmo-agent-update/` | `.claude/(skills|commands)`를 canonical과 비교 후 선택 업데이트 |
+| agmo-agent-update | `common/.agents/commands/agmo-agent-update/` | `.claude/(skills|commands)`를 canonical과 비교 후 선택 업데이트 |
