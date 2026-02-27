@@ -1,6 +1,6 @@
 # Installation
 
-If you're an LLM Agent helping set up project agent, Welcome! You'll now help your user to set up .agent files.
+If you're an LLM Agent helping set up project agent, welcome. You'll help your user set up runtime `./.claude` files from this repository's template sources.
 
 follow these steps:
 
@@ -26,13 +26,13 @@ never move on next step before getting the answer:
 Based on $TYPE, run the CLI installer with appropriate flags:
 
 ```bash
-curl -s https://raw.githubusercontent.com/hobeen-kim/agent/refs/heads/main/<backend|frontend|custom>/AGENTS.md
+curl -s https://raw.githubusercontent.com/AGMO-Inc/agmo-agent/refs/heads/main/<backend|frontend|custom>/AGENTS.md
 ```
 
 **Examples:**
-- User's repository type is backend: `curl -s https://raw.githubusercontent.com/hobeen-kim/agent/refs/heads/main/backend/AGENTS.md`
-- User's repository type is frontend: `curl -s https://raw.githubusercontent.com/hobeen-kim/agent/refs/heads/main/frontend/AGENTS.md`
-- User's repository type is custom: `curl -s https://raw.githubusercontent.com/hobeen-kim/agent/refs/heads/main/custom/AGENTS.md`
+- User's repository type is backend: `curl -s https://raw.githubusercontent.com/AGMO-Inc/agmo-agent/refs/heads/main/backend/AGENTS.md`
+- User's repository type is frontend: `curl -s https://raw.githubusercontent.com/AGMO-Inc/agmo-agent/refs/heads/main/frontend/AGENTS.md`
+- User's repository type is custom: `curl -s https://raw.githubusercontent.com/AGMO-Inc/agmo-agent/refs/heads/main/custom/AGENTS.md`
 
 ## Step 2: Edit AGENTS.md file
 
@@ -79,13 +79,14 @@ First, set `TYPE` as an environment variable using the value you answered in Ste
 export TYPE="backend"  # or: frontend / custom
 ```
 
-Then run the script below to download the `.claude/` files for TYPE.
+Then run the script below to download runtime `./.claude/` files for TYPE.
 
 규칙:
 
 - 기존 `./.claude/`의 다른 파일은 건들지 않는다.
 - 동일한 파일/디렉토리명이 이미 있으면 덮어쓴다.
 - 존재하지 않으면 새로 추가한다.
+- source는 `$root/$TYPE/.agents/` + `$root/common/.agents/`를 사용한다.
 
 ```bash
 curl -L -o repo.zip "https://github.com/AGMO-Inc/agmo-agent/archive/refs/heads/main.zip" \

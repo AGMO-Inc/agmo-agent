@@ -2,7 +2,7 @@
 
 Working agreement for humans, CI, bots, and agentic coding tools in this repository.
 
-This repo is an internal, shared "agent kit" for AGMO: templates (AGENTS.md) + reusable skills under `.claude/`.
+This repo is an internal, shared "agent kit" for AGMO: templates (AGENTS.md) + reusable skill sources under `common/.agents/` and `<type>/.agents/`.
 It is NOT an application repo, so most commands here validate tooling/templates rather than build a product.
 
 ## Repo Map
@@ -88,7 +88,7 @@ Formatting:
 - Use backticks for file paths and literal tokens (ex: `.claude`).
 - Keep lines reasonably short in lists; prefer one idea per bullet.
 
-### Skill Authoring (`**/.claude/skills/<skill-name>/SKILL.md`)
+### Skill Authoring (`**/.agents/skills/<skill-name>/SKILL.md`)
 
 Follow the validator constraints in `common/.agents/skills/skill-creator/scripts/quick_validate.py`:
 
@@ -105,7 +105,8 @@ Conventions:
 
 - Keep SKILL.md concise; put large reference material under `references/`.
 - Prefer imperative headings and checklists that are easy for agents to execute.
-- When referencing the agent directory root in docs/templates, use `.claude` (fixed location).
+- In this repository, keep source assets under `common/.agents/` and `<type>/.agents/`.
+- In downstream installed repositories, the runtime root is `./.claude/`.
 
 Bundled resources:
 
