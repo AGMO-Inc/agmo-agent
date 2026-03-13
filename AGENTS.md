@@ -151,3 +151,10 @@ CLI conventions:
 
 - No `.cursor/rules/`, `.cursorrules`, or `.github/copilot-instructions.md` found in this repo at the time of writing.
   - If added later, mirror the key constraints here so non-Cursor agents also follow them.
+
+
+## 레포/프로젝트 정보
+- 조직: AGMO-Inc
+- 프로젝트명: SDM AGMO Solution Feature
+- 프로젝트 url: https://github.com/orgs/AGMO-Inc/projects/8
+- 레포: git@github-agmo:AGMO-Inc/agmo-agent.git

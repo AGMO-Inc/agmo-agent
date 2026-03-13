@@ -31,9 +31,11 @@ obsidian/
 └── skills/
     ├── _obsidian-common/              ← 공통 리소스
     │   ├── ref/
-    │   │   ├── cli-reference.md       ← Obsidian CLI 명령어
-    │   │   ├── frontmatter-schema.md  ← YAML frontmatter 스키마
-    │   │   └── link-strategy.md       ← wikilink/외부 링크 규칙
+    │   │   ├── cli-reference.md           ← Obsidian CLI 명령어
+    │   │   ├── frontmatter-schema.md      ← YAML frontmatter 스키마
+    │   │   ├── issue-template-mapping.md  ← GitHub Issue 템플릿 매핑
+    │   │   ├── link-strategy.md           ← wikilink/외부 링크 규칙
+    │   │   └── setup.md                   ← 환경 변수 설정 가이드
     │   └── scripts/
     │       ├── identify-project.sh    ← git remote → REPO/OWNER/PROJECT
     │       ├── ensure-project-index.sh← 프로젝트 인덱스 노트 생성

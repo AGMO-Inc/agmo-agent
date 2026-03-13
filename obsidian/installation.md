@@ -102,9 +102,11 @@ TARGET=".claude/skills"        # 대상 프로젝트의 스킬 디렉토리
 mkdir -p ${TARGET}/_obsidian-common/ref
 mkdir -p ${TARGET}/_obsidian-common/scripts
 
-cp ${SOURCE}/_obsidian-common/ref/frontmatter-schema.md  ${TARGET}/_obsidian-common/ref/
-cp ${SOURCE}/_obsidian-common/ref/link-strategy.md       ${TARGET}/_obsidian-common/ref/
-cp ${SOURCE}/_obsidian-common/ref/cli-reference.md       ${TARGET}/_obsidian-common/ref/
+cp ${SOURCE}/_obsidian-common/ref/frontmatter-schema.md      ${TARGET}/_obsidian-common/ref/
+cp ${SOURCE}/_obsidian-common/ref/link-strategy.md           ${TARGET}/_obsidian-common/ref/
+cp ${SOURCE}/_obsidian-common/ref/cli-reference.md           ${TARGET}/_obsidian-common/ref/
+cp ${SOURCE}/_obsidian-common/ref/setup.md                   ${TARGET}/_obsidian-common/ref/
+cp ${SOURCE}/_obsidian-common/ref/issue-template-mapping.md  ${TARGET}/_obsidian-common/ref/
 cp ${SOURCE}/_obsidian-common/scripts/identify-project.sh     ${TARGET}/_obsidian-common/scripts/
 cp ${SOURCE}/_obsidian-common/scripts/ensure-project-index.sh ${TARGET}/_obsidian-common/scripts/
 cp ${SOURCE}/_obsidian-common/scripts/collect-git-info.sh     ${TARGET}/_obsidian-common/scripts/
@@ -122,73 +124,21 @@ cp -r ${SOURCE}/obsidian-search    ${TARGET}/
 
 공통 리소스는 항상 필수다. 개별 스킬만 선택적으로 복사한다:
 
-| 스킬 | 의존하는 공통 스크립트 |
+| 스킬 | 의존하는 공통 리소스 |
 |------|------------------------|
-| `save-plan` | `identify-project.sh`, `ensure-project-index.sh` |
-| `save-impl` | `identify-project.sh`, `ensure-project-index.sh`, `collect-git-info.sh` |
-| `save-note` | `identify-project.sh`, `ensure-project-index.sh` |
-| `obsidian-to-issue` | `identify-project.sh`, `ensure-project-index.sh` |
-| `obsidian-search` | 없음 (CLI만 사용) |
+| `save-plan` | `identify-project.sh`, `ensure-project-index.sh`, `frontmatter-schema.md`, `link-strategy.md` |
+| `save-impl` | `identify-project.sh`, `ensure-project-index.sh`, `collect-git-info.sh`, `frontmatter-schema.md`, `link-strategy.md` |
+| `save-note` | `identify-project.sh`, `ensure-project-index.sh`, `frontmatter-schema.md`, `link-strategy.md` |
+| `obsidian-to-issue` | `identify-project.sh`, `frontmatter-schema.md`, `link-strategy.md`, `issue-template-mapping.md`, `cli-reference.md` |
+| `obsidian-search` | `cli-reference.md` |
 
 ---
 
-## 4단계: setup.md 생성 (개인화)
+## 4단계: setup.md 확인
 
-대상 프로젝트의 `.claude/skills/_obsidian-common/ref/setup.md`를 생성한다. 이 파일은 **사용자별 개인화 정보**를 담는다.
+3단계에서 `_obsidian-common/ref/setup.md`가 이미 복사되었다. 이 파일에 환경 변수 설정 방법과 vault 디렉토리 구조가 설명되어 있으므로 별도 생성이 불필요하다.
 
-```markdown
-# Obsidian 스킬 설정 가이드
-
-## 전제 조건
-
-- Obsidian 1.12+ 설치
-- Obsidian 앱 설정 → 일반 → **명령줄 인터페이스 활성화** → 등록
-- `gh` CLI 인증 완료
-
-## 환경 변수 설정
-
-각 사용자는 자신의 Obsidian vault 경로를 환경 변수로 설정해야 한다.
-
-### 방법 1: 쉘 프로파일에 추가 (추천)
-
-`~/.zshrc` 또는 `~/.bashrc`에 추가:
-
-```bash
-export OBSIDIAN_VAULT_ROOT="{사용자가 알려준 vault 경로}"
-```
-
-### 방법 2: 프로젝트 .env 파일
-
-프로젝트 루트에 `.env.local` 파일 생성 (gitignore 대상):
-
-```bash
-OBSIDIAN_VAULT_ROOT={사용자가 알려준 vault 경로}
-```
-
-## Vault 디렉토리 구조
-
-스킬이 자동 생성하는 구조:
-
-```
-${OBSIDIAN_VAULT_ROOT}/
-├── {프로젝트명}/
-│   ├── plans/
-│   │   └── [Plan] 제목.md
-│   ├── implementations/
-│   │   └── [Impl] 제목.md
-│   ├── designs/
-│   │   └── [Design] 제목.md
-│   ├── research/
-│   │   └── [Research] 제목.md
-│   ├── meetings/
-│   │   └── [Meeting] 제목.md
-│   ├── memos/
-│   │   └── [Memo] 제목.md
-│   └── {프로젝트명}.md          ← 프로젝트 인덱스 (허브)
-```
-```
-
-위 템플릿에서 `{사용자가 알려준 vault 경로}` 부분을 **2단계에서 수집한 실제 경로**로 치환한다.
+사용자에게 `setup.md`의 내용을 안내하여 `$OBSIDIAN_VAULT_ROOT` 환경 변수가 올바르게 설정되었는지 확인한다.
 
 ---
 
@@ -259,34 +209,18 @@ ${OBSIDIAN_VAULT_ROOT}/
 
 ---
 
-## 7단계: issue-template-mapping.md 생성 (선택)
+## 7단계: issue-template-mapping.md 커스터마이즈 (선택)
 
-`obsidian-to-issue` 스킬을 설치하는 경우, GitHub Issue 템플릿 매핑 파일을 생성한다.
+`obsidian-to-issue` 스킬을 설치하는 경우, 3단계에서 복사된 `_obsidian-common/ref/issue-template-mapping.md`를 확인한다.
 
-### 사용자에게 질문
+기본값은 AGMO-Inc 표준 템플릿(`01-기능-개발.yml`, `02-기능-개발---하위-태스크.yml`, `03-버그-리포트.yml`)이다.
+
+### 커스텀 템플릿 사용 시
+
+사용자의 조직/레포에 맞게 `.claude/skills/_obsidian-common/ref/issue-template-mapping.md`의 템플릿 파일명을 수정한다:
 
 - "GitHub Issue 템플릿을 사용하시나요? (AGMO-Inc/.github 기본 템플릿 / 커스텀 / 미사용)"
 - 커스텀인 경우: "레포의 `.github/ISSUE_TEMPLATE/` 경로에 어떤 템플릿 파일이 있나요?"
-
-### 기본 매핑 (AGMO-Inc 표준)
-
-`.claude/skills/_obsidian-common/ref/issue-template-mapping.md`를 생성한다:
-
-```markdown
-# Issue Template Mapping (SSOT)
-
-노트의 `issue-type` → GitHub Issue 템플릿 매핑.
-
-| issue-type | 제목 접두사 | 템플릿 파일 |
-|------------|-------------|-------------|
-| feature | `[Feature]` | `01-기능-개발.yml` |
-| task | `[Task]` | `02-기능-개발---하위-태스크.yml` |
-| bug | `[Bug]` | `03-버그-리포트.yml` |
-
-템플릿 소스: `AGMO-Inc/.github/.github/ISSUE_TEMPLATE`
-```
-
-사용자의 조직/레포에 맞게 템플릿 파일명을 수정한다.
 
 ---
 
@@ -316,7 +250,7 @@ ls "$OBSIDIAN_VAULT_ROOT/.obsidian"
 # 3. 스킬 파일 존재 확인
 ls .claude/skills/_obsidian-common/ref/
 ls .claude/skills/_obsidian-common/scripts/
-# → 각 ref 3개, scripts 3개 파일
+# → ref 5개 (cli-reference, frontmatter-schema, issue-template-mapping, link-strategy, setup), scripts 3개 파일
 
 # 4. 스크립트 실행 권한 확인
 test -x .claude/skills/_obsidian-common/scripts/identify-project.sh && echo "OK"
@@ -357,14 +291,13 @@ gh auth status 2>/dev/null && echo "gh OK" || echo "gh not authenticated"
 
 ## 트러블슈팅
 
-### "OBSIDIAN_VAULT 환경변수를 설정하세요" 오류
+### "OBSIDIAN_VAULT_ROOT 환경변수를 설정하세요" 오류
 
-`ensure-project-index.sh`는 `OBSIDIAN_VAULT` 변수를 참조한다. `OBSIDIAN_VAULT_ROOT`와 `OBSIDIAN_VAULT` 둘 다 설정하거나, 스크립트를 패치한다:
+`ensure-project-index.sh`는 `$OBSIDIAN_VAULT_ROOT` 환경변수를 참조한다. 2단계에서 설정이 올바르게 되었는지 확인한다:
 
 ```bash
-# ~/.zshrc에 둘 다 추가
-export OBSIDIAN_VAULT_ROOT="/path/to/vault"
-export OBSIDIAN_VAULT="$OBSIDIAN_VAULT_ROOT"
+echo "$OBSIDIAN_VAULT_ROOT"
+# → vault 경로가 출력되어야 함. 비어 있으면 ~/.zshrc에 export 추가 후 터미널 재시작
 ```
 
 ### Obsidian CLI가 동작하지 않을 때
