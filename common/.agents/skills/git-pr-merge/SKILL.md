@@ -1,6 +1,6 @@
 ---
 name: git-pr-merge
-description: PR을 squash merge하고 관련 이슈(Task/Feature)에 완료 코멘트를 작성하는 스킬이다. "머지해줘", "PR 머지하고 이슈 정리해줘", "머지 후 코멘트 남겨줘" 같은 요청에서 사용한다.
+description: PR을 commit merge하고 관련 이슈(Task/Feature)에 완료 코멘트를 작성하는 스킬이다. "머지해줘", "PR 머지하고 이슈 정리해줘", "머지 후 코멘트 남겨줘" 같은 요청에서 사용한다.
 ---
 
 # PR Merge Workflow
@@ -24,10 +24,10 @@ REPO=$(git remote get-url origin | sed -E 's#.+[:/]([^/]+/[^/.]+)(\.git)?$#\1#')
 gh pr view <PR번호> --repo "$REPO" --json state,statusCheckRollup,reviews
 ```
 
-## 2. Squash Merge
+## 2. Commit Merge
 
 ```bash
-gh pr merge <PR번호> --repo "$REPO" --squash
+gh pr merge <PR번호> --repo "$REPO" --merge
 ```
 
 ## 3. 이슈 코멘트 작성
@@ -51,7 +51,7 @@ gh issue comment <상위이슈번호> --repo "$REPO" --body "<본문>"
 
 ## 완료 요약
 
-PR #<PR번호> squash merge 완료.
+PR #<PR번호> commit merge 완료.
 
 ### 구현 내용
 - 변경사항 1

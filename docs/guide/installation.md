@@ -6,7 +6,7 @@ follow these steps:
 
 ## Step 0: Ask user about project information
 
-First of All, Ask the user these questions in korean to determine AGENTS.md options one after another.
+First of All, Ask the user these questions in korean to determine CLAUDE.md options one after another.
 never move on next step before getting the answer:
 
 1. **현재 레파지토리는 어느 깃허브 프로젝트와 관련되어 있나요? (관련없음 또는 프로젝트명을 정확히 넣어주세요)**
@@ -21,23 +21,23 @@ never move on next step before getting the answer:
 2. **현재 레파지토리는 어떤 성격의 프로젝트인가요? (backend / frontend / custom)**
 - answer -> $TYPE
 
-## Step 1: Download AGENTS.md file
+## Step 1: Download CLAUDE.md file
 
 Based on $TYPE, run the CLI installer with appropriate flags:
 
 ```bash
-curl -s https://raw.githubusercontent.com/AGMO-Inc/agmo-agent/refs/heads/main/<backend|frontend|custom>/AGENTS.md
+curl -s https://raw.githubusercontent.com/AGMO-Inc/agmo-agent/refs/heads/main/<backend|frontend|custom>/CLAUDE.md
 ```
 
 **Examples:**
-- User's repository type is backend: `curl -s https://raw.githubusercontent.com/AGMO-Inc/agmo-agent/refs/heads/main/backend/AGENTS.md`
-- User's repository type is frontend: `curl -s https://raw.githubusercontent.com/AGMO-Inc/agmo-agent/refs/heads/main/frontend/AGENTS.md`
-- User's repository type is custom: `curl -s https://raw.githubusercontent.com/AGMO-Inc/agmo-agent/refs/heads/main/custom/AGENTS.md`
+- User's repository type is backend: `curl -s https://raw.githubusercontent.com/AGMO-Inc/agmo-agent/refs/heads/main/backend/CLAUDE.md`
+- User's repository type is frontend: `curl -s https://raw.githubusercontent.com/AGMO-Inc/agmo-agent/refs/heads/main/frontend/CLAUDE.md`
+- User's repository type is custom: `curl -s https://raw.githubusercontent.com/AGMO-Inc/agmo-agent/refs/heads/main/custom/CLAUDE.md`
 
-## Step 2: Edit AGENTS.md file
+## Step 2: Edit CLAUDE.md file
 
 ### Step 2-1: project info
-Read the project and update only the following sections in AGENTS.md (leave everything else unchanged):
+Read the project and update only the following sections in CLAUDE.md (leave everything else unchanged):
 
 `## Project Overview and Description`
 
@@ -88,7 +88,7 @@ Then run the script below to download runtime `./.claude/` files for TYPE.
 - 기존 `./.claude/`의 다른 파일은 건들지 않는다.
 - 동일한 파일/디렉토리명이 이미 있으면 덮어쓴다.
 - 존재하지 않으면 새로 추가한다.
-- source는 `$root/$TYPE/.agents/` + `$root/common/.agents/`를 사용한다.
+- source는 `$root/$TYPE/.claude/` + `$root/common/.claude/`를 사용한다.
 
 ```bash
 curl -L -o repo.zip "https://github.com/AGMO-Inc/agmo-agent/archive/refs/heads/main.zip" \
@@ -96,8 +96,8 @@ curl -L -o repo.zip "https://github.com/AGMO-Inc/agmo-agent/archive/refs/heads/m
 && unzip -q repo.zip -d "$tmp" \
 && root="$(find "$tmp" -mindepth 1 -maxdepth 1 -type d | head -n 1)" \
 && mkdir -p "./.claude" \
-&& cp -R "$root/$TYPE/.agents/." "./.claude/" \
-&& cp -R "$root/common/.agents/." "./.claude/" \
+&& cp -R "$root/$TYPE/.claude/." "./.claude/" \
+&& cp -R "$root/common/.claude/." "./.claude/" \
 && rm -rf "$tmp" repo.zip
 ```
 
